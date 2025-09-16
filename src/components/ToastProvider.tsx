@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import Toast, { ToastType, ToastProps } from "./Toast";
 
 interface ToastItem extends Omit<ToastProps, "show" | "onClose"> {
@@ -128,15 +134,18 @@ export function ToastProvider({
     }
   };
 
-  const contextValue: ToastContextType = {
-    addToast,
-    removeToast,
-    clearAllToasts,
-    success,
-    error,
-    warning,
-    info,
-  };
+  const contextValue: ToastContextType = useMemo(
+    () => ({
+      addToast,
+      removeToast,
+      clearAllToasts,
+      success,
+      error,
+      warning,
+      info,
+    }),
+    [addToast, removeToast, clearAllToasts, success, error, warning, info]
+  );
 
   return (
     <ToastContext.Provider value={contextValue}>

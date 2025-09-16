@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Menu, Transition } from "@headlessui/react";
 import { FaBars } from "react-icons/fa";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, User, LayoutDashboard, LogOut } from "lucide-react";
 import { HiChevronDown } from "react-icons/hi";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { logoutUser } from "@/store/authSlice";
@@ -61,7 +61,7 @@ export default function Navbar() {
 
             <div className="h-8 w-px bg-gray-300"></div>
 
-            {/* Profile Dropdown */}
+            {/* Profile Section */}
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button
@@ -75,8 +75,23 @@ export default function Navbar() {
                     height={40}
                     className="h-10 w-10"
                   />
+
+                  {/* User Info */}
+                  {isAuthenticated && user && (
+                    <div className="ml-3 text-left">
+                      <p className="text-base font-bold text-gray-900">
+                        {user.fName && user.lName
+                          ? `${user.fName} ${user.lName}`
+                          : "User"}
+                      </p>
+                      <p className="text-xs font-medium text-gray-500 truncate max-w-[150px]">
+                        {user.email}
+                      </p>
+                    </div>
+                  )}
+
                   {isAuthenticated && (
-                    <HiChevronDown className="ml-1 h-4 w-4" />
+                    <HiChevronDown className="ml-2 h-4 w-4 flex-shrink-0" />
                   )}
                 </Menu.Button>
               </div>
@@ -91,7 +106,7 @@ export default function Navbar() {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-lg bg-white shadow-lg ring-1 ring-gray-300 ring-opacity-5 focus:outline-none">
                     <div className="px-4 py-3">
                       <p className="text-sm text-gray-700">Signed in as</p>
                       <p className="text-sm font-medium text-gray-900 truncate">
@@ -108,9 +123,10 @@ export default function Navbar() {
                               active
                                 ? "bg-gray-100 text-gray-900"
                                 : "text-gray-700",
-                              "block px-4 py-2 text-sm"
+                              "flex items-center px-4 py-2 text-sm hover:bg-gray-50 transition-colors cursor-pointer"
                             )}
                           >
+                            <User className="mr-3 h-4 w-4" />
                             Manage Profile
                           </Link>
                         )}
@@ -123,9 +139,10 @@ export default function Navbar() {
                               active
                                 ? "bg-gray-100 text-gray-900"
                                 : "text-gray-700",
-                              "block px-4 py-2 text-sm"
+                              "flex items-center px-4 py-2 text-sm hover:bg-gray-50 transition-colors cursor-pointer"
                             )}
                           >
+                            <LayoutDashboard className="mr-3 h-4 w-4" />
                             Dashboard
                           </Link>
                         )}
@@ -139,12 +156,15 @@ export default function Navbar() {
                             onClick={handleLogout}
                             className={clsx(
                               active
-                                ? "bg-gray-100 text-gray-900"
+                                ? "bg-red-50 text-red-700"
                                 : "text-gray-700",
-                              "block w-full text-left px-4 py-2 text-sm"
+                              "flex items-center w-full text-left px-4 py-2 text-sm hover:bg-red-50 hover:text-red-700 transition-group cursor-pointer"
                             )}
                           >
-                            Logout
+                            <LogOut className="mr-3 h-4 w-4 group-hover:text-red-600" />
+                            <span className="group-hover:text-red-600">
+                              Logout
+                            </span>
                           </button>
                         )}
                       </Menu.Item>

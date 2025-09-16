@@ -48,13 +48,9 @@ export default function SignUpPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      toast.success(
-        "Account Created!",
-        "Welcome! Your account has been created successfully."
-      );
       router.push("/");
     }
-  }, [isAuthenticated, router, toast]);
+  }, [isAuthenticated, router]);
 
   // Clear errors when component unmounts
   useEffect(() => {
@@ -86,6 +82,11 @@ export default function SignUpPage() {
 
       if (registerUser.fulfilled.match(result)) {
         console.log("Registration successful");
+        toast.success(
+          "Account Created!",
+          "Welcome! Your account has been created successfully."
+        );
+        // Redirect will be handled by useEffect
       } else {
         // Error will be handled by useEffect for Redux error
         console.error("Registration failed");
