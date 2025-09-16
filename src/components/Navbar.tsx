@@ -65,7 +65,7 @@ export default function Navbar() {
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button
-                  className="flex items-center text-gray-900 hover:text-gray-700 p-2 rounded-md cursor-pointer"
+                  className="flex items-center text-gray-900 hover:text-gray-700 p-2 rounded-md cursor-pointer outline-none focus:outline-none"
                   onClick={!isAuthenticated ? handleProfileClick : undefined}
                 >
                   <Image
