@@ -42,10 +42,9 @@ export default function SignInPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      toast.success("Welcome back!", "You have been successfully signed in.");
       router.push("/");
     }
-  }, [isAuthenticated, router, toast]);
+  }, [isAuthenticated, router]);
 
   // Clear errors when component unmounts
   useEffect(() => {
@@ -74,7 +73,8 @@ export default function SignInPage() {
 
       if (loginUser.fulfilled.match(result)) {
         console.log("Login successful");
-        // Success toast and redirect will be handled by useEffect
+        toast.success("Welcome back!", "You have been successfully signed in.");
+        // Redirect will be handled by useEffect
       } else {
         // Error will be handled by useEffect for Redux error
         console.error("Login failed");
