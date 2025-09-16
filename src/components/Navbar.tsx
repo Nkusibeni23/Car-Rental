@@ -9,16 +9,19 @@ import { FaBars } from "react-icons/fa";
 import { ShoppingCart } from "lucide-react";
 import { HiChevronDown } from "react-icons/hi";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { logout } from "@/store/authSlice";
+import { logoutUser } from "@/store/authSlice";
+import { useToast } from "@/components/ToastProvider";
 import clsx from "clsx";
 
 export default function Navbar() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const toast = useToast();
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    toast.success("Signed Out", "You have been successfully signed out.");
     router.push("/");
   };
 

@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { registerUser, clearError } from "@/store/authSlice";
+import { useToast } from "@/components/ToastProvider";
 import Link from "next/link";
 import {
   CreditCard,
@@ -25,7 +29,12 @@ interface SignUpForm {
 }
 
 export default function SignUpPage() {
-  const [error, setError] = useState("");
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const toast = useToast();
+  const { isLoading, error, isAuthenticated } = useAppSelector(
+    (state) => state.auth
+  );
 
   const {
     register,
@@ -36,22 +45,57 @@ export default function SignUpPage() {
 
   const password = watch("password");
 
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      toast.success(
+        "Account Created!",
+        "Welcome! Your account has been created successfully."
+      );
+      router.push("/");
+    }
+  }, [isAuthenticated, router, toast]);
+
+  // Clear errors when component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
+
+  // Show error toast when Redux error changes
+  useEffect(() => {
+    if (error) {
+      toast.error("Registration Failed", error);
+    }
+  }, [error, toast]);
+
   const onSubmit = async (data: SignUpForm) => {
     try {
-      setError("");
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      dispatch(clearError());
 
-      // Mock user creation
-      const user = {
-        id: Date.now().toString(),
-        email: data.email,
-        name: `${data.firstName} ${data.lastName}`,
-      };
+      const result = await dispatch(
+        registerUser({
+          fName: data.firstName,
+          lName: data.lastName,
+          email: data.email,
+          password: data.password,
+          isTermsAccepted: data.agreeToTerms,
+        })
+      );
 
-      console.log("User created:", user);
-      // Handle success (redirect, etc.)
-    } catch {
-      setError("Failed to create account");
+      if (registerUser.fulfilled.match(result)) {
+        console.log("Registration successful");
+      } else {
+        // Error will be handled by useEffect for Redux error
+        console.error("Registration failed");
+      }
+    } catch (err) {
+      console.warn(err);
+      toast.error(
+        "Unexpected Error",
+        "An unexpected error occurred. Please try again."
+      );
     }
   };
 
@@ -300,17 +344,15 @@ export default function SignUpPage() {
               </p>
             )}
 
-            {error && (
-              <div className="text-red-600 text-sm text-center">{error}</div>
-            )}
-
             {/* Submit Button */}
             <button
               onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
               className="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
             >
-              {isSubmitting ? "Creating Account..." : "Create Account"}
+              {isSubmitting || isLoading
+                ? "Creating Account..."
+                : "Create Account"}
             </button>
 
             {/* Or Continue With */}

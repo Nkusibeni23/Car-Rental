@@ -1,0 +1,35 @@
+export interface User {
+  id: number;
+  uuid: string;
+  fName: string;
+  lName: string;
+  phone: string | null;
+  email: string;
+  role: string;
+  isActive: boolean;
+  isTermsAccepted: boolean;
+  lastLogin: string | null;
+  picture: string | null;
+  isVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  user: User;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  fName: string;
+  lName: string;
+  email: string;
+  password: string;
+  phone?: string;
+  isTermsAccepted: boolean;
+}

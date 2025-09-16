@@ -87,3 +87,18 @@ body {
 .border-primary {
   border-color: var(--color-gray-200);
 }
+
+/* Toast animations */
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.toast-progress-bar {
+  animation: toast-progress var(--duration) linear forwards;
+  transform-origin: left;
+}
