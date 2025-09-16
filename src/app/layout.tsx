@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import Navbar from "@/components/Navbar";
+import AuthInitializer from "@/components/AuthInitializer";
+import { ToastProvider } from "@/components/ToastProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -33,7 +35,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
         <Provider store={store}>
-          <LayoutContent>{children}</LayoutContent>
+          <ToastProvider position="top-right" maxToasts={5}>
+            <AuthInitializer>
+              <LayoutContent>{children}</LayoutContent>
+            </AuthInitializer>
+          </ToastProvider>
         </Provider>
       </body>
     </html>

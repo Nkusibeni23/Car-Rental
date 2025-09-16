@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { loginUser, clearError } from "@/store/authSlice";
+import { useToast } from "@/components/ToastProvider";
 import Link from "next/link";
 import {
   CreditCard,
@@ -22,7 +26,12 @@ interface SignInForm {
 }
 
 export default function SignInPage() {
-  const [error, setError] = useState("");
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const toast = useToast();
+  const { isLoading, error, isAuthenticated } = useAppSelector(
+    (state) => state.auth
+  );
 
   const {
     register,
@@ -30,32 +39,58 @@ export default function SignInPage() {
     formState: { errors, isSubmitting },
   } = useForm<SignInForm>();
 
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      toast.success("Welcome back!", "You have been successfully signed in.");
+      router.push("/");
+    }
+  }, [isAuthenticated, router, toast]);
+
+  // Clear errors when component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
+
+  // Show error toast when Redux error changes
+  useEffect(() => {
+    if (error) {
+      toast.error("Sign In Failed", error);
+    }
+  }, [error, toast]);
+
   const onSubmit = async (data: SignInForm) => {
     try {
-      setError("");
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      dispatch(clearError());
 
-      // Simple dummy validation
-      if (data.email === "user@example.com" && data.password === "password") {
-        const user = {
-          id: "1",
+      const result = await dispatch(
+        loginUser({
           email: data.email,
-          name: "John Doe",
-        };
+          password: data.password,
+        })
+      );
 
-        console.log("User signed in:", user);
-        // Handle success (redirect, etc.)
+      if (loginUser.fulfilled.match(result)) {
+        console.log("Login successful");
+        // Success toast and redirect will be handled by useEffect
       } else {
-        throw new Error("Invalid credentials");
+        // Error will be handled by useEffect for Redux error
+        console.error("Login failed");
       }
-    } catch {
-      setError("Invalid email or password");
+    } catch (err) {
+      console.warn(err);
+      toast.error(
+        "Unexpected Error",
+        "An unexpected error occurred. Please try again."
+      );
     }
   };
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Side - Branding */}
+      {/* Left Side */}
       <div className="hidden lg:flex lg:w-1/2 bg-black text-white flex-col justify-between p-12">
         <div>
           {/* Icon Grid */}
@@ -116,15 +151,15 @@ export default function SignInPage() {
             {/* Trust Indicators */}
             <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-400" />
+                <CheckCircle className="w-4 h-4 text-green-500" />
                 <span className="text-sm text-gray-300">Secure</span>
               </div>
               <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-400" />
+                <CheckCircle className="w-4 h-4 text-green-500" />
                 <span className="text-sm text-gray-300">Verified</span>
               </div>
               <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-400" />
+                <CheckCircle className="w-4 h-4 text-green-500" />
                 <span className="text-sm text-gray-300">Trusted</span>
               </div>
             </div>
@@ -224,17 +259,13 @@ export default function SignInPage() {
               </Link>
             </div>
 
-            {error && (
-              <div className="text-red-600 text-sm text-center">{error}</div>
-            )}
-
             {/* Submit Button */}
             <button
               onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
               className="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
             >
-              {isSubmitting ? "Signing in..." : "Login"}
+              {isSubmitting || isLoading ? "Signing in..." : "Login"}
             </button>
 
             {/* Or Continue With */}
@@ -267,13 +298,6 @@ export default function SignInPage() {
               </svg>
               <span>Continue with Google</span>
             </button>
-
-            {/* Demo Credentials Note */}
-            <div className="text-center">
-              <p className="text-xs text-gray-500">
-                Demo: user@example.com / password
-              </p>
-            </div>
           </div>
 
           {/* Mobile Sign Up Link */}
