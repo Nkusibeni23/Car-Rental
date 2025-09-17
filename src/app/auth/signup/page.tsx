@@ -81,14 +81,11 @@ export default function SignUpPage() {
       );
 
       if (registerUser.fulfilled.match(result)) {
-        console.log("Registration successful");
         toast.success(
           "Account Created!",
           "Welcome! Your account has been created successfully."
         );
-        // Redirect will be handled by useEffect
       } else {
-        // Error will be handled by useEffect for Redux error
         console.error("Registration failed");
       }
     } catch (err) {

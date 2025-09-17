@@ -69,7 +69,6 @@ export default function SignInPage() {
       );
 
       if (loginUser.fulfilled.match(result)) {
-        console.log("Login successful");
         toast.success("Welcome back!", "You have been successfully signed in.");
       } else {
         console.error("Login failed");

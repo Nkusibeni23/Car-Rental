@@ -92,7 +92,7 @@ class AuthService {
   // Verify email
   async verifyEmail(token: string): Promise<void> {
     try {
-      await apiClient.post("/auth/verify-email", { token });
+      await apiClient.post(`/users/verify-email/${token}`);
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }
