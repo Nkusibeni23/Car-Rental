@@ -62,7 +62,7 @@ export default function VerifyEmailPage() {
           </p>
         </div>
 
-        <div className="bg-white py-8 px-6 shadow-lg rounded-lg">
+        <div className="bg-white py-8 px-6 shadow-lg rounded-xl">
           <div className="flex flex-col items-center space-y-4">
             {status === "loading" && (
               <>

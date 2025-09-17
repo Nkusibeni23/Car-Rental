@@ -98,20 +98,22 @@ class AuthService {
     }
   }
 
-  // Request password reset
-  async requestPasswordReset(email: string): Promise<void> {
+  // Request OTP for password reset
+  async requestPasswordResetOTP(email: string): Promise<void> {
     try {
-      await apiClient.post("/auth/forgot-password", { email });
+      await apiClient.post("/auth/reset-otp", {
+        email,
+      });
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }
   }
 
-  // Reset password
-  async resetPassword(token: string, newPassword: string): Promise<void> {
+  // Reset password with OTP
+  async resetPasswordWithOTP(otp: string, newPassword: string): Promise<void> {
     try {
-      await apiClient.post("/auth/reset-password", {
-        token,
+      await apiClient.post("/auth/reset-otp", {
+        otp,
         password: newPassword,
       });
     } catch (error) {

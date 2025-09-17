@@ -1,5 +1,3 @@
-// Token utility functions for secure storage and management
-
 interface DecodedToken {
   id: number;
   email: string;
@@ -70,7 +68,6 @@ export const TokenService = {
     return !!this.getToken();
   },
 
-  // Decode JWT token (without verification - for client-side use only)
   decodeToken(token: string): DecodedToken | null {
     try {
       const payload = token.split(".")[1];
@@ -91,7 +88,6 @@ export const TokenService = {
       const decoded = this.decodeToken(accessToken);
       if (!decoded || !decoded.exp) return true;
 
-      // Check if token is expired (exp is in seconds, Date.now() is in milliseconds)
       return decoded.exp * 1000 < Date.now();
     } catch (error) {
       console.error("Error checking token expiration:", error);
