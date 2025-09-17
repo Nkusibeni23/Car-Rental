@@ -81,10 +81,7 @@ export default function SignInPage() {
       }
     } catch (err) {
       console.warn(err);
-      toast.error(
-        "Unexpected Error",
-        "An unexpected error occurred. Please try again."
-      );
+      // Don't show toast here - it will be handled by the useEffect above
     }
   };
 

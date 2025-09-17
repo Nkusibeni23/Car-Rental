@@ -31,7 +31,7 @@ class AuthService {
   // Register user
   async register(userData: RegisterRequest): Promise<AuthResponse> {
     try {
-      const response = await apiClient.post("/auth/register", userData);
+      const response = await apiClient.post("/users/signup", userData);
       const { accessToken, user } = response.data;
 
       // Store tokens
