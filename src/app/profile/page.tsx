@@ -16,7 +16,6 @@ import {
   X,
   Shield,
   AlertCircle,
-  Key,
   Info,
   Mail,
   Phone,
@@ -526,7 +525,7 @@ export default function ProfilePage() {
                         className="block w-full px-4 py-3 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors duration-200 outline-none"
                         placeholder="Create a strong new password"
                       />
-                      <Key className="absolute right-3 top-3.5 w-5 h-5 text-gray-400" />
+                      <Lock className="absolute right-3 top-3.5 w-5 h-5 text-gray-400" />
                     </div>
                     {passwordErrors.newPassword && (
                       <div className="flex items-start space-x-1 mt-2">
@@ -641,7 +640,7 @@ export default function ProfilePage() {
                         className="block w-full px-4 py-3 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors duration-200 outline-none"
                         placeholder="Confirm your new password"
                       />
-                      <Shield className="absolute right-3 top-3.5 w-5 h-5 text-gray-400" />
+                      <Lock className="absolute right-3 top-3.5 w-5 h-5 text-gray-400" />
                     </div>
                     {passwordErrors.confirmPassword && (
                       <div className="flex items-center space-x-1 mt-2">
