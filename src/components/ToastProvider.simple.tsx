@@ -31,24 +31,10 @@ export function useToast() {
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
-  const addToast = useCallback(
-    (toast: Omit<ToastItem, "id">) => {
-      const isDuplicate = toasts.some(
-        (existingToast) =>
-          existingToast.title === toast.title &&
-          existingToast.message === toast.message &&
-          existingToast.type === toast.type
-      );
-
-      if (isDuplicate) {
-        return;
-      }
-
-      const id = Date.now().toString();
-      setToasts((prev) => [...prev, { ...toast, id }]);
-    },
-    [toasts]
-  );
+  const addToast = useCallback((toast: Omit<ToastItem, "id">) => {
+    const id = Date.now().toString();
+    setToasts((prev) => [...prev, { ...toast, id }]);
+  }, []);
 
   const removeToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));

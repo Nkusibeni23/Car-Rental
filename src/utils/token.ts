@@ -1,11 +1,26 @@
-// Token utility functions for secure storage and management
-
 interface DecodedToken {
   id: number;
   email: string;
   role: string;
   iat: number;
   exp: number;
+}
+
+export interface StoredUser {
+  id: number;
+  email: string;
+  role: string;
+  uuid: string;
+  fName: string;
+  lName: string;
+  phone: string | null;
+  isActive: boolean;
+  isTermsAccepted: boolean;
+  lastLogin: string | null;
+  picture: string | null;
+  isVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const TokenService = {
@@ -63,6 +78,7 @@ export const TokenService = {
   clearTokens(): void {
     this.removeToken();
     this.removeRefreshToken();
+    this.removeUserData();
   },
 
   // Check if token exists
@@ -70,7 +86,6 @@ export const TokenService = {
     return !!this.getToken();
   },
 
-  // Decode JWT token (without verification - for client-side use only)
   decodeToken(token: string): DecodedToken | null {
     try {
       const payload = token.split(".")[1];
@@ -91,7 +106,6 @@ export const TokenService = {
       const decoded = this.decodeToken(accessToken);
       if (!decoded || !decoded.exp) return true;
 
-      // Check if token is expired (exp is in seconds, Date.now() is in milliseconds)
       return decoded.exp * 1000 < Date.now();
     } catch (error) {
       console.error("Error checking token expiration:", error);
@@ -105,5 +119,37 @@ export const TokenService = {
     if (!token || this.isTokenExpired(token)) return null;
 
     return this.decodeToken(token);
+  },
+
+  // Store complete user data
+  setUserData(user: StoredUser): void {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(
+      process.env.NEXT_PUBLIC_USER_DATA_KEY || "car_rental_user_data",
+      JSON.stringify(user)
+    );
+  },
+
+  // Get complete user data
+  getUserData(): StoredUser | null {
+    if (typeof window === "undefined") return null;
+    const userData = localStorage.getItem(
+      process.env.NEXT_PUBLIC_USER_DATA_KEY || "car_rental_user_data"
+    );
+    if (!userData) return null;
+
+    try {
+      return JSON.parse(userData) as StoredUser;
+    } catch {
+      return null;
+    }
+  },
+
+  // Remove user data
+  removeUserData(): void {
+    if (typeof window === "undefined") return;
+    localStorage.removeItem(
+      process.env.NEXT_PUBLIC_USER_DATA_KEY || "car_rental_user_data"
+    );
   },
 };

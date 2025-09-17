@@ -16,8 +16,9 @@ class AuthService {
       const response = await apiClient.post("/auth/login", credentials);
       const { accessToken, user } = response.data;
 
-      // Store tokens
+      // Store tokens and user data
       TokenService.setToken(accessToken);
+      TokenService.setUserData(user);
       if (response.data.refreshToken) {
         TokenService.setRefreshToken(response.data.refreshToken);
       }
@@ -31,11 +32,12 @@ class AuthService {
   // Register user
   async register(userData: RegisterRequest): Promise<AuthResponse> {
     try {
-      const response = await apiClient.post("/auth/register", userData);
+      const response = await apiClient.post("/users/signup", userData);
       const { accessToken, user } = response.data;
 
-      // Store tokens
+      // Store tokens and user data
       TokenService.setToken(accessToken);
+      TokenService.setUserData(user);
       if (response.data.refreshToken) {
         TokenService.setRefreshToken(response.data.refreshToken);
       }
@@ -47,14 +49,15 @@ class AuthService {
   }
 
   // Logout user
-  async logout(): Promise<void> {
-    try {
-      await apiClient.post("/auth/logout");
-    } catch (error) {
-      console.error("Logout API call failed:", error);
-    } finally {
-      TokenService.clearTokens();
-    }
+  logout(): void {
+    // Clear all tokens and user data from localStorage
+    TokenService.clearTokens();
+    TokenService.removeUserData();
+
+    // Optional: Clear any other app-specific data
+    // localStorage.removeItem('someOtherAppData');
+
+    console.log("User logged out successfully");
   }
 
   // Get current user profile
@@ -92,28 +95,81 @@ class AuthService {
   // Verify email
   async verifyEmail(token: string): Promise<void> {
     try {
-      await apiClient.post("/auth/verify-email", { token });
+      await apiClient.post(`/users/verify-email/${token}`);
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }
   }
 
-  // Request password reset
-  async requestPasswordReset(email: string): Promise<void> {
+  // Request OTP for password reset
+  async requestPasswordResetOTP(email: string): Promise<void> {
     try {
-      await apiClient.post("/auth/forgot-password", { email });
-    } catch (error) {
-      throw this.handleError(error as AxiosError);
-    }
-  }
-
-  // Reset password
-  async resetPassword(token: string, newPassword: string): Promise<void> {
-    try {
-      await apiClient.post("/auth/reset-password", {
-        token,
-        password: newPassword,
+      await apiClient.post("/auth/reset-otp", {
+        email,
       });
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Reset password with OTP
+  async resetPasswordWithOTP(otp: string, newPassword: string): Promise<void> {
+    try {
+      await apiClient.post(`/auth/reset-password/${otp}`, {
+        newPassword,
+      });
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Update user profile
+  async updateProfile(profileData: {
+    fName: string;
+    lName: string;
+    phone?: string;
+  }): Promise<User> {
+    try {
+      const response = await apiClient.put("/auth/profile", profileData);
+      const user = response.data.user;
+
+      // Update stored user data
+      TokenService.setUserData(user);
+
+      return user;
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Change password (for authenticated users)
+  async changePassword(
+    currentPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    try {
+      await apiClient.put("/auth/change-password", {
+        currentPassword,
+        newPassword,
+      });
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Upload profile picture
+  async uploadProfilePicture(file: File): Promise<string> {
+    try {
+      const formData = new FormData();
+      formData.append("picture", file);
+
+      const response = await apiClient.post("/auth/upload-picture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data.pictureUrl;
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }
@@ -127,6 +183,13 @@ class AuthService {
 
   // Get current user from token
   getCurrentUserFromToken(): User | null {
+    // First try to get stored user data
+    const storedUser = TokenService.getUserData();
+    if (storedUser) {
+      return storedUser as User;
+    }
+
+    // Fallback to token data (limited info)
     const tokenData = TokenService.getUserFromToken();
     if (!tokenData) return null;
 

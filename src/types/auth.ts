@@ -30,6 +30,5 @@ export interface RegisterRequest {
   lName: string;
   email: string;
   password: string;
-  phone?: string;
   isTermsAccepted: boolean;
 }
