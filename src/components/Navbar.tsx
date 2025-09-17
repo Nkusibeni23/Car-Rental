@@ -158,7 +158,7 @@ export default function Navbar() {
                   <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-lg bg-white shadow-lg ring-1 ring-gray-300 ring-opacity-5 focus:outline-none z-50">
                     <div className="px-4 py-3">
                       <p className="text-sm text-gray-700">Signed in as</p>
-                      <p className="text-sm font-semibold text-gray-900 truncate">
+                      <p className="text-sm font-semibodtext-gray-900 truncate">
                         {user?.email}
                       </p>
                     </div>

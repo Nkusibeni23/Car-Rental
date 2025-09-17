@@ -149,7 +149,7 @@ export default function ProfilePage() {
               </div>
               <button
                 onClick={handleProfilePictureClick}
-                className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow duration-200"
+                className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-lg hover:shadow-xl transition-shadow duration-200 cursor-pointer"
               >
                 <Camera className="w-4 h-4 text-gray-600" />
               </button>
@@ -706,7 +706,7 @@ export default function ProfilePage() {
                 <label className="block text-sm font-medium text-gray-500">
                   Member Since
                 </label>
-                <p className="mt-1 text-lg text-gray-900">
+                <p className="mt-1 text-base text-gray-900 font-semibold">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </p>
               </div>
