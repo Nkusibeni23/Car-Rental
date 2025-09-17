@@ -314,26 +314,32 @@ export default function SignUpPage() {
             </div>
 
             {/* Terms Checkbox */}
-            <div className="flex items-start">
-              <input
-                {...register("agreeToTerms", {
-                  required: "You must agree to the terms and conditions",
-                })}
-                type="checkbox"
-                className="w-4 h-4 mt-1 text-black bg-gray-100 border-gray-300 rounded focus:ring-2 cursor-pointer"
-              />
-              <label className="ml-3 text-sm text-gray-600">
+            <div className="flex items-start space-x-3">
+              <div className="relative mt-0.5">
+                <input
+                  {...register("agreeToTerms", {
+                    required: "You must agree to the terms and conditions",
+                  })}
+                  type="checkbox"
+                  className="w-5 h-5 text-black bg-white border border-gray-300 rounded cursor-pointer transition-all duration-200 ease-in-out focus:ring-1 focus:ring-black focus:ring-offset-1 hover:border-gray-400 checked:bg-black checked:border-black checked:text-white accent-black"
+                  id="agreeToTerms"
+                />
+              </div>
+              <label
+                htmlFor="agreeToTerms"
+                className="text-sm text-gray-600 cursor-pointer leading-relaxed"
+              >
                 I agree with{" "}
                 <Link
                   href="/terms"
-                  className="text-black font-medium underline"
+                  className="text-black font-medium underline hover:text-gray-700 transition-colors"
                 >
                   terms
                 </Link>{" "}
                 and{" "}
                 <Link
                   href="/conditions"
-                  className="text-black font-medium underline"
+                  className="text-black font-medium underline hover:text-gray-700 transition-colors"
                 >
                   conditions
                 </Link>

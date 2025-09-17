@@ -39,21 +39,18 @@ export default function SignInPage() {
     formState: { errors, isSubmitting },
   } = useForm<SignInForm>();
 
-  // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/");
     }
   }, [isAuthenticated, router]);
 
-  // Clear errors when component unmounts
   useEffect(() => {
     return () => {
       dispatch(clearError());
     };
   }, [dispatch]);
 
-  // Show error toast when Redux error changes
   useEffect(() => {
     if (error) {
       toast.error("Sign In Failed", error);
@@ -74,14 +71,15 @@ export default function SignInPage() {
       if (loginUser.fulfilled.match(result)) {
         console.log("Login successful");
         toast.success("Welcome back!", "You have been successfully signed in.");
-        // Redirect will be handled by useEffect
       } else {
-        // Error will be handled by useEffect for Redux error
         console.error("Login failed");
       }
     } catch (err) {
       console.warn(err);
-      // Don't show toast here - it will be handled by the useEffect above
+      toast.error(
+        "Unexpected Error",
+        "An unexpected error occurred. Please try again."
+      );
     }
   };
 
@@ -242,8 +240,9 @@ export default function SignInPage() {
                 <input
                   {...register("rememberMe")}
                   type="checkbox"
-                  className="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded focus:ring-1 cursor-pointer focus:ring-black"
+                  className="w-5 h-5 text-black bg-white border border-gray-300 rounded cursor-pointer transition-all duration-200 ease-in-out focus:ring-1 focus:ring-black focus:ring-offset-1 hover:border-gray-400 checked:bg-black checked:border-black checked:text-white accent-black"
                 />
+
                 <label className="ml-2 text-sm text-gray-600">
                   Remember me
                 </label>
