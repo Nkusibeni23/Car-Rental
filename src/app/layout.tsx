@@ -17,10 +17,11 @@ const inter = Inter({
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAuthPage = pathname?.startsWith("/auth");
+  const isDashboardPage = pathname?.startsWith("/dashboard");
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {!isAuthPage && <Navbar />}
+      {!isAuthPage && !isDashboardPage && <Navbar />}
       <main>{children}</main>
     </div>
   );
