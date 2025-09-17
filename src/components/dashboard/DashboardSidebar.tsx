@@ -61,7 +61,7 @@ export default function DashboardSidebar({
           <button
             key={item.key}
             onClick={() => onTabChange(item.key)}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors cursor-pointer ${
               activeTab === item.key
                 ? "bg-gray-900 text-white"
                 : "text-gray-600 hover:bg-gray-100"
