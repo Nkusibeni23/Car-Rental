@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
         <Provider store={store}>
-          <ToastProvider position="top-right" maxToasts={5}>
+          <ToastProvider>
             <AuthInitializer>
               <LayoutContent>{children}</LayoutContent>
             </AuthInitializer>

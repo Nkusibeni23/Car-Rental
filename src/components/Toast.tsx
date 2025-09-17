@@ -11,7 +11,6 @@ export interface ToastProps {
   title: string;
   message?: string;
   duration?: number;
-  show: boolean;
   onClose: (id: string) => void;
 }
 
@@ -64,80 +63,61 @@ export default function Toast({
   title,
   message,
   duration = 5000,
-  show,
   onClose,
 }: ToastProps) {
   const config = toastConfig[type];
   const Icon = config.icon;
 
   useEffect(() => {
-    if (show && duration > 0) {
-      const timer = setTimeout(() => {
-        onClose(id);
-      }, duration);
-      return () => clearTimeout(timer);
-    }
-  }, [show, duration, id, onClose]);
+    const timer = setTimeout(() => {
+      onClose(id);
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [duration, id, onClose]);
 
   const handleClose = () => {
     onClose(id);
   };
 
-  // Don't render if not showing
-  if (!show) return null;
-
   return (
-    <div
-      className={`max-w-md w-full min-w-[380px] pointer-events-auto relative hover:scale-105 transition-all duration-300 ease-out`}
-    >
+    <div className="max-w-xl w-full min-w-[420px] pointer-events-auto">
       <div
-        className={`relative overflow-hidden rounded-xl ${config.bgColor} ${config.borderColor} border-l-4 transition-all duration-300`}
+        className={`relative rounded-lg ${config.bgColor} ${config.borderColor} border-l-4 shadow-sm`}
       >
-        <div
-          className={`absolute top-0 left-0 w-1 h-full ${config.accentColor}`}
-        />
-
-        <div className="relative px-4 py-4">
-          <div className="flex items-start space-x-3">
+        <div className="px-5 py-3">
+          <div className="flex items-start">
             <div className="flex-shrink-0">
-              <Icon
-                className={`h-6 w-6 ${config.iconColor}`}
-                aria-hidden="true"
-              />
+              <Icon className={`h-5 w-5 ${config.iconColor}`} />
             </div>
-
-            <div className="flex-1 min-w-0">
-              <h3
-                className={`${config.titleColor} font-semibold text-sm leading-tight`}
-              >
+            <div className="ml-3 w-0 flex-1 pr-2">
+              <p className={`text-sm font-medium ${config.titleColor}`}>
                 {title}
-              </h3>
+              </p>
               {message && (
                 <p
-                  className={`mt-1 ${config.messageColor} text-sm leading-relaxed`}
+                  className={`mt-1 text-sm ${config.messageColor} leading-relaxed`}
                 >
                   {message}
                 </p>
               )}
             </div>
-
-            <button
-              type="button"
-              className="flex-shrink-0 p-1 rounded text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleClose();
-              }}
-            >
-              <X className="h-4 w-4" />
-            </button>
+            <div className="ml-4 flex-shrink-0">
+              <button
+                type="button"
+                className="rounded-md p-1.5 text-gray-400 hover:text-gray-600 transition-colors"
+                onClick={handleClose}
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </div>
 
-        {duration > 0 && show && (
+        {duration > 0 && (
           <div className="h-1 bg-gray-200">
             <div
-              className={`h-full ${config.progressColor} progress-animate`}
+              className={`h-full ${config.progressColor}`}
               style={{
                 animation: `toast-progress ${duration}ms linear forwards`,
                 transformOrigin: "left",
