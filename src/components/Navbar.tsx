@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,11 +19,16 @@ export default function Navbar() {
   const toast = useToast();
   const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     await dispatch(logoutUser());
     toast.success("Signed Out", "You have been successfully signed out.");
-    setIsMobileMenuOpen(false); // Close mobile menu on logout
+    setIsMobileMenuOpen(false);
     router.push("/");
   };
 
@@ -42,11 +47,32 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
+  if (!isMounted) {
+    return (
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 sm:h-20">
+            <div className="flex-shrink-0">
+              <Link href="/" className="block">
+                <span className="text-lg sm:text-xl lg:text-2xl font-bold text-black">
+                  <span className="hidden sm:inline">
+                    Car & Driver Rental Hub
+                  </span>
+                  <span className="sm:hidden">Car Rental</span>
+                </span>
+              </Link>
+            </div>
+            <div className="animate-pulse h-8 w-32 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
-          {/* Logo - Responsive */}
           <div className="flex-shrink-0">
             <Link href="/" className="block">
               <span className="text-lg sm:text-xl lg:text-2xl font-bold text-black">
@@ -105,9 +131,7 @@ export default function Navbar() {
                   {isAuthenticated && user && (
                     <div className="hidden lg:block ml-3 text-left">
                       <p className="text-sm lg:text-base font-bold text-gray-900">
-                        {user.fName && user.lName
-                          ? `${user.fName} ${user.lName}`
-                          : "User"}
+                        {user.lName ? `${user.lName}` : "User"}
                       </p>
                       <p className="text-xs font-medium text-gray-500 truncate max-w-[120px] lg:max-w-[150px]">
                         {user.email}
@@ -263,9 +287,7 @@ export default function Navbar() {
                       />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-gray-900 truncate">
-                          {user?.fName && user?.lName
-                            ? `${user.fName} ${user.lName}`
-                            : "User"}
+                          {user?.lName ? `${user.lName}` : "User"}
                         </p>
                         <p className="text-xs text-gray-500 truncate">
                           {user?.email}

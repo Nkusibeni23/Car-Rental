@@ -6,6 +6,23 @@ interface DecodedToken {
   exp: number;
 }
 
+export interface StoredUser {
+  id: number;
+  email: string;
+  role: string;
+  uuid: string;
+  fName: string;
+  lName: string;
+  phone: string | null;
+  isActive: boolean;
+  isTermsAccepted: boolean;
+  lastLogin: string | null;
+  picture: string | null;
+  isVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export const TokenService = {
   // Get token from localStorage
   getToken(): string | null {
@@ -61,6 +78,7 @@ export const TokenService = {
   clearTokens(): void {
     this.removeToken();
     this.removeRefreshToken();
+    this.removeUserData();
   },
 
   // Check if token exists
@@ -101,5 +119,37 @@ export const TokenService = {
     if (!token || this.isTokenExpired(token)) return null;
 
     return this.decodeToken(token);
+  },
+
+  // Store complete user data
+  setUserData(user: StoredUser): void {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(
+      process.env.NEXT_PUBLIC_USER_DATA_KEY || "car_rental_user_data",
+      JSON.stringify(user)
+    );
+  },
+
+  // Get complete user data
+  getUserData(): StoredUser | null {
+    if (typeof window === "undefined") return null;
+    const userData = localStorage.getItem(
+      process.env.NEXT_PUBLIC_USER_DATA_KEY || "car_rental_user_data"
+    );
+    if (!userData) return null;
+
+    try {
+      return JSON.parse(userData) as StoredUser;
+    } catch {
+      return null;
+    }
+  },
+
+  // Remove user data
+  removeUserData(): void {
+    if (typeof window === "undefined") return;
+    localStorage.removeItem(
+      process.env.NEXT_PUBLIC_USER_DATA_KEY || "car_rental_user_data"
+    );
   },
 };

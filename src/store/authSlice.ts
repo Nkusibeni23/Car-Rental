@@ -50,7 +50,8 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await authService.logout();
+      // Call the synchronous logout method
+      authService.logout();
     } catch (error) {
       const apiError = error as ApiError;
       return rejectWithValue(apiError.message);

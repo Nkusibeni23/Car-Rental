@@ -16,8 +16,9 @@ class AuthService {
       const response = await apiClient.post("/auth/login", credentials);
       const { accessToken, user } = response.data;
 
-      // Store tokens
+      // Store tokens and user data
       TokenService.setToken(accessToken);
+      TokenService.setUserData(user);
       if (response.data.refreshToken) {
         TokenService.setRefreshToken(response.data.refreshToken);
       }
@@ -34,8 +35,9 @@ class AuthService {
       const response = await apiClient.post("/users/signup", userData);
       const { accessToken, user } = response.data;
 
-      // Store tokens
+      // Store tokens and user data
       TokenService.setToken(accessToken);
+      TokenService.setUserData(user);
       if (response.data.refreshToken) {
         TokenService.setRefreshToken(response.data.refreshToken);
       }
@@ -47,14 +49,15 @@ class AuthService {
   }
 
   // Logout user
-  async logout(): Promise<void> {
-    try {
-      await apiClient.post("/auth/logout");
-    } catch (error) {
-      console.error("Logout API call failed:", error);
-    } finally {
-      TokenService.clearTokens();
-    }
+  logout(): void {
+    // Clear all tokens and user data from localStorage
+    TokenService.clearTokens();
+    TokenService.removeUserData();
+
+    // Optional: Clear any other app-specific data
+    // localStorage.removeItem('someOtherAppData');
+
+    console.log("User logged out successfully");
   }
 
   // Get current user profile
@@ -112,7 +115,7 @@ class AuthService {
   // Reset password with OTP
   async resetPasswordWithOTP(otp: string, newPassword: string): Promise<void> {
     try {
-      await apiClient.post("/auth/reset-otp", {
+      await apiClient.post("/auth/reset-password", {
         otp,
         password: newPassword,
       });
@@ -129,6 +132,13 @@ class AuthService {
 
   // Get current user from token
   getCurrentUserFromToken(): User | null {
+    // First try to get stored user data
+    const storedUser = TokenService.getUserData();
+    if (storedUser) {
+      return storedUser as User;
+    }
+
+    // Fallback to token data (limited info)
     const tokenData = TokenService.getUserFromToken();
     if (!tokenData) return null;
 
