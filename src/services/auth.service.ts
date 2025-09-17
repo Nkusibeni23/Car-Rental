@@ -115,10 +115,61 @@ class AuthService {
   // Reset password with OTP
   async resetPasswordWithOTP(otp: string, newPassword: string): Promise<void> {
     try {
-      await apiClient.post("/auth/reset-password", {
-        otp,
-        password: newPassword,
+      await apiClient.post(`/auth/reset-password/${otp}`, {
+        newPassword,
       });
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Update user profile
+  async updateProfile(profileData: {
+    fName: string;
+    lName: string;
+    phone?: string;
+  }): Promise<User> {
+    try {
+      const response = await apiClient.put("/auth/profile", profileData);
+      const user = response.data.user;
+
+      // Update stored user data
+      TokenService.setUserData(user);
+
+      return user;
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Change password (for authenticated users)
+  async changePassword(
+    currentPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    try {
+      await apiClient.put("/auth/change-password", {
+        currentPassword,
+        newPassword,
+      });
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Upload profile picture
+  async uploadProfilePicture(file: File): Promise<string> {
+    try {
+      const formData = new FormData();
+      formData.append("picture", file);
+
+      const response = await apiClient.post("/auth/upload-picture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data.pictureUrl;
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }

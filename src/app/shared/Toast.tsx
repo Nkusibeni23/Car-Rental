@@ -47,13 +47,13 @@ const toastConfig = {
   },
   info: {
     icon: Info,
-    bgColor: "bg-blue-50",
-    borderColor: "border-blue-200",
-    iconColor: "text-blue-600",
-    titleColor: "text-blue-800",
-    messageColor: "text-blue-700",
-    progressColor: "bg-blue-500",
-    accentColor: "bg-blue-500",
+    bgColor: "bg-gray-50",
+    borderColor: "border-gray-200",
+    iconColor: "text-gray-600",
+    titleColor: "text-gray-800",
+    messageColor: "text-gray-700",
+    progressColor: "bg-gray-500",
+    accentColor: "bg-gray-500",
   },
 };
 
