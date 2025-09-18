@@ -1,11 +1,6 @@
 "use client";
 
-import { useAppSelector } from "@/store/hooks";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store/store";
-import { logoutUser } from "@/store/authSlice";
+import { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardContent from "@/components/dashboard/DashboardContent";
@@ -15,29 +10,13 @@ import RentalHistoryContent from "@/components/dashboard/RentalHistoryContent";
 import SettingsContent from "@/components/dashboard/SettingsContent";
 
 export default function DashboardPage() {
-  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
-  const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/auth/signin");
-    }
-  }, [isAuthenticated, router]);
-
-  const handleLogout = async () => {
-    try {
-      await dispatch(logoutUser()).unwrap();
-      router.push("/");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+  const handleLogout = () => {
+    window.location.href = "/";
   };
-
-  if (!isAuthenticated) {
-    return null;
-  }
 
   const getPageTitle = () => {
     switch (activeTab) {
@@ -80,10 +59,29 @@ export default function DashboardPage() {
           activeTab={activeTab}
           onTabChange={setActiveTab}
           onLogout={handleLogout}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          isMobileMenuOpen={isMobileMenuOpen}
+          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         />
-        <div className="flex-1 flex flex-col h-full">
-          <DashboardHeader title={getPageTitle()} user={user} />
-          {renderContent()}
+        <div
+          className={`
+          flex-1 
+          flex 
+          flex-col 
+          h-full 
+          transition-all 
+          duration-300 
+          ease-in-out
+          ${isSidebarCollapsed ? "lg:ml-0" : "lg:ml-0"}
+        `}
+        >
+          <DashboardHeader
+            title={getPageTitle()}
+            onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            isCollapsed={isSidebarCollapsed}
+          />
+          <div className="flex-1 overflow-hidden">{renderContent()}</div>
         </div>
       </div>
     </div>

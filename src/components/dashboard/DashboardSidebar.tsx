@@ -7,18 +7,29 @@ import {
   History,
   Settings,
   LogOut,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 interface SidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   onLogout: () => void;
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
+  isMobileMenuOpen: boolean;
+  onMobileMenuToggle: () => void;
 }
 
 export default function DashboardSidebar({
   activeTab,
   onTabChange,
   onLogout,
+  isCollapsed,
+  onToggleCollapse,
+  isMobileMenuOpen,
+  onMobileMenuToggle,
 }: SidebarProps) {
   const sidebarItems = [
     {
@@ -49,40 +60,149 @@ export default function DashboardSidebar({
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
-      {/* Logo */}
-      <div className="p-6 border-b border-gray-200">
-        <h1 className="text-lg font-bold text-gray-900">Car Rental Hub</h1>
-      </div>
+    <>
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={onMobileMenuToggle}
+        />
+      )}
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-2">
-        {sidebarItems.map((item) => (
+      {/* Sidebar */}
+      <aside
+        className={`
+          ${isCollapsed ? "w-16" : "w-64"} 
+          ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"} 
+          lg:translate-x-0 
+          fixed lg:relative 
+          z-50 
+          bg-white 
+          border-r 
+          border-gray-200 
+          flex 
+          flex-col 
+          h-full 
+          transition-all 
+          duration-300 
+          ease-in-out
+        `}
+      >
+        {/* Logo and Toggle */}
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+          {!isCollapsed && (
+            <h1 className="text-lg font-bold text-gray-900 transition-opacity duration-200">
+              Car Rental Hub
+            </h1>
+          )}
           <button
-            key={item.key}
-            onClick={() => onTabChange(item.key)}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors cursor-pointer ${
-              activeTab === item.key
-                ? "bg-gray-900 text-white"
-                : "text-gray-600 hover:bg-gray-100"
-            }`}
+            onClick={onToggleCollapse}
+            className="hidden lg:flex p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
           >
-            <item.icon className="w-5 h-5" />
-            <span className="font-medium">{item.label}</span>
+            {isCollapsed ? (
+              <ChevronRight className="w-4 h-4 text-gray-600" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-gray-600" />
+            )}
           </button>
-        ))}
-      </nav>
 
-      {/* Logout */}
-      <div className="p-4 border-t border-gray-200">
-        <button
-          onClick={onLogout}
-          className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-        >
-          <LogOut className="w-5 h-5" />
-          <span className="font-medium">Logout</span>
-        </button>
-      </div>
-    </aside>
+          {/* Mobile Close Button */}
+          <button
+            onClick={onMobileMenuToggle}
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+          >
+            <X className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 p-3 space-y-1">
+          {sidebarItems.map((item) => (
+            <button
+              key={item.key}
+              onClick={() => {
+                onTabChange(item.key);
+                if (window.innerWidth < 1024) {
+                  onMobileMenuToggle();
+                }
+              }}
+              className={`
+                w-full 
+                flex 
+                items-center 
+                ${isCollapsed ? "justify-center px-2" : "justify-start px-4"} 
+                py-3 
+                rounded-lg 
+                text-left 
+                transition-all 
+                duration-200 
+                ease-in-out
+                group
+                relative 
+                cursor-pointer
+                ${
+                  activeTab === item.key
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-600 hover:bg-gray-100"
+                }
+              `}
+              title={isCollapsed ? item.label : undefined}
+            >
+              <item.icon className="w-5 h-5 flex-shrink-0" />
+              {!isCollapsed && (
+                <span className="font-medium ml-3 transition-opacity duration-200">
+                  {item.label}
+                </span>
+              )}
+
+              {/* Tooltip for collapsed state */}
+              {isCollapsed && (
+                <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50 pointer-events-none">
+                  {item.label}
+                </div>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        {/* Logout */}
+        <div className="p-3 border-t border-gray-200">
+          <button
+            onClick={onLogout}
+            className={`
+              w-full 
+              flex 
+              items-center 
+              ${isCollapsed ? "justify-center px-2" : "justify-start px-4"} 
+              py-3 
+              text-red-600 
+              hover:bg-red-50 
+              rounded-lg 
+              transition-all 
+              duration-200 
+              ease-in-out
+              group
+              relative
+            cursor-pointer
+            `}
+            title={isCollapsed ? "Logout" : undefined}
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            {!isCollapsed && (
+              <span className="font-medium ml-3 transition-opacity duration-200">
+                Logout
+              </span>
+            )}
+
+            {/* Tooltip for collapsed state */}
+            {isCollapsed && (
+              <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50 pointer-events-none">
+                Logout
+              </div>
+            )}
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -2,10 +2,10 @@
 
 export default function ListingContent() {
   return (
-    <div className="flex-1 p-8 h-full overflow-auto">
+    <div className="flex-1 p-4 lg:p-8 h-full overflow-auto">
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
             Hello World!
           </h2>
           <p className="text-gray-600">Welcome to Car Listing Content</p>
