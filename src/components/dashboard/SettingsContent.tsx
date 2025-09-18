@@ -60,7 +60,7 @@ export default function SettingsContent() {
           <input
             type="text"
             defaultValue="John"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
           />
         </div>
         <div>
@@ -70,7 +70,7 @@ export default function SettingsContent() {
           <input
             type="text"
             defaultValue="Doe"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
           />
         </div>
         <div>
@@ -81,7 +81,7 @@ export default function SettingsContent() {
             <input
               type="email"
               defaultValue="john.doe@example.com"
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
             />
             <Mail className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
           </div>
@@ -94,7 +94,7 @@ export default function SettingsContent() {
             <input
               type="tel"
               defaultValue="+1 (555) 123-4567"
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
             />
             <Phone className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
           </div>
@@ -107,7 +107,7 @@ export default function SettingsContent() {
             <input
               type="date"
               defaultValue="1990-01-15"
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
             />
             <Calendar className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
           </div>
@@ -120,7 +120,7 @@ export default function SettingsContent() {
             <input
               type="text"
               defaultValue="New York, NY"
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
             />
             <MapPin className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
           </div>
@@ -134,7 +134,7 @@ export default function SettingsContent() {
         <textarea
           rows={4}
           defaultValue="Car rental business owner with 10+ years of experience in the automotive industry."
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
         />
       </div>
     </div>
@@ -154,7 +154,7 @@ export default function SettingsContent() {
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
-                className="w-full pr-10 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pr-10 px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
               />
               <button
                 type="button"
@@ -176,12 +176,12 @@ export default function SettingsContent() {
             <div className="relative">
               <input
                 type={showNewPassword ? "text" : "password"}
-                className="w-full pr-10 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pr-10 px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
               />
               <button
                 type="button"
                 onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute right-3 top-2.5 text-gray-400"
+                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
               >
                 {showNewPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -198,12 +198,12 @@ export default function SettingsContent() {
             <div className="relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                className="w-full pr-10 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pr-10 px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none"
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-2.5 text-gray-400"
+                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
               >
                 {showConfirmPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -227,7 +227,7 @@ export default function SettingsContent() {
               Add an extra layer of security to your account
             </p>
           </div>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-900 cursor-pointer">
             Enable
           </button>
         </div>
@@ -254,7 +254,7 @@ export default function SettingsContent() {
               <p className="font-medium text-gray-900">Safari on iPhone</p>
               <p className="text-sm text-gray-600">Last active: 2 hours ago</p>
             </div>
-            <button className="text-red-600 hover:text-red-800 text-sm">
+            <button className="text-red-600 hover:text-red-800 text-sm cursor-pointer">
               Revoke
             </button>
           </div>
@@ -303,7 +303,7 @@ export default function SettingsContent() {
               <input
                 type="checkbox"
                 defaultChecked
-                className="w-4 h-4 text-blue-600"
+                className="w-4 h-4 text-gray-600 cursor-pointer"
               />
             </div>
           ))}
@@ -340,7 +340,7 @@ export default function SettingsContent() {
               <input
                 type="checkbox"
                 defaultChecked
-                className="w-4 h-4 text-blue-600"
+                className="w-4 h-4 text-gray-600"
               />
             </div>
           ))}
@@ -369,7 +369,7 @@ export default function SettingsContent() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Language
                   </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none">
                     <option>English (US)</option>
                     <option>Spanish</option>
                     <option>French</option>
@@ -380,7 +380,7 @@ export default function SettingsContent() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Timezone
                   </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500 outline-none">
                     <option>Eastern Time (UTC-5)</option>
                     <option>Central Time (UTC-6)</option>
                     <option>Mountain Time (UTC-7)</option>
@@ -391,7 +391,7 @@ export default function SettingsContent() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Date Format
                   </label>
-                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500">
                     <option>MM/DD/YYYY</option>
                     <option>DD/MM/YYYY</option>
                     <option>YYYY-MM-DD</option>
@@ -448,7 +448,7 @@ export default function SettingsContent() {
 
             {/* Save Button */}
             <div className="flex justify-end mt-8 pt-6 border-t border-gray-200">
-              <button className="flex items-center space-x-2 px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800">
+              <button className="flex items-center space-x-2 px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 cursor-pointer">
                 <Save className="w-4 h-4" />
                 <span>Save Changes</span>
               </button>
