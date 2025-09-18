@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { AppDispatch, RootState } from "@/store/store";
 import { updateProfile, changePassword } from "@/store/authSlice";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/app/shared/ToastProvider";
 import Image from "next/image";
 import {
   User,

@@ -411,31 +411,35 @@ export default function SettingsContent() {
   };
 
   return (
-    <div className="flex-1 p-8 h-full overflow-auto">
+    <div className="flex-1 p-4 lg:p-8 h-full overflow-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+      <div className="mb-6 lg:mb-8">
+        <h2 className="text-xl lg:text-2xl font-bold text-gray-900">
+          Settings
+        </h2>
         <p className="text-gray-600 mt-1">
           Manage your account settings and preferences
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
         {/* Sidebar */}
         <div className="lg:w-64">
-          <nav className="space-y-2">
+          <nav className="grid grid-cols-2 lg:grid-cols-1 gap-2 lg:space-y-2 lg:gap-0">
             {settingsSections.map((section) => (
               <button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors cursor-pointer ${
+                className={`w-full flex items-center space-x-2 lg:space-x-3 px-3 lg:px-4 py-2 lg:py-3 rounded-lg text-left transition-colors cursor-pointer text-sm lg:text-base ${
                   activeSection === section.id
                     ? "bg-gray-900 text-white"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
               >
-                <section.icon className="w-5 h-5" />
-                <span>{section.label}</span>
+                <section.icon className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
+                <span className="hidden sm:inline lg:inline">
+                  {section.label}
+                </span>
               </button>
             ))}
           </nav>
@@ -443,12 +447,12 @@ export default function SettingsContent() {
 
         {/* Content */}
         <div className="flex-1">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
             {renderContent()}
 
             {/* Save Button */}
-            <div className="flex justify-end mt-8 pt-6 border-t border-gray-200">
-              <button className="flex items-center space-x-2 px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 cursor-pointer">
+            <div className="flex justify-end mt-6 lg:mt-8 pt-4 lg:pt-6 border-t border-gray-200">
+              <button className="flex items-center space-x-2 px-4 lg:px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 cursor-pointer text-sm lg:text-base">
                 <Save className="w-4 h-4" />
                 <span>Save Changes</span>
               </button>

@@ -10,7 +10,7 @@ import { User, LayoutDashboard, LogOut } from "lucide-react";
 import { HiChevronDown } from "react-icons/hi";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { logoutUser } from "@/store/authSlice";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/app/shared/ToastProvider";
 import clsx from "clsx";
 
 export default function Navbar() {

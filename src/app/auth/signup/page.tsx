@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { registerUser, clearError } from "@/store/authSlice";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/app/shared/ToastProvider";
 import Link from "next/link";
 import {
   CreditCard,

@@ -6,8 +6,8 @@ import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import Navbar from "@/components/Navbar";
 import AuthInitializer from "@/components/AuthInitializer";
-import { ToastProvider } from "@/components/ToastProvider";
 import "./globals.css";
+import ToastProvider from "@/app/shared/ToastProvider";
 
 const inter = Inter({
   subsets: ["latin"],

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import authService from "@/services/auth.service";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/app/shared/ToastProvider";
 
 type ResetPasswordForm = {
   otp: string;
@@ -74,12 +74,12 @@ export default function ResetPasswordPage() {
 
     // Additional validation check
     if (!data.otp || !data.password) {
-      error("Please fill in all required fields");
+      error("Validation Error", "Please fill in all required fields");
       return;
     }
 
     if (data.otp.length !== 6) {
-      error("OTP must be exactly 6 digits");
+      error("Invalid OTP", "OTP must be exactly 6 digits");
       return;
     }
 
@@ -87,19 +87,19 @@ export default function ResetPasswordPage() {
     try {
       await authService.resetPasswordWithOTP(data.otp, data.password);
       success(
+        "Password Reset Successful",
         "Password reset successfully! You can now sign in with your new password."
       );
 
-      // Redirect to sign in page after 2 seconds
       setTimeout(() => {
         router.push("/auth/signin");
       }, 2000);
     } catch (err) {
-      console.error("Reset password error:", err); // Debug log
+      console.error("Reset password error:", err);
       const errorMessage =
         (err as Error)?.message ||
         "Failed to reset password. Please check your OTP and try again.";
-      error(errorMessage);
+      error("Reset Failed", errorMessage);
     } finally {
       setIsLoading(false);
     }
