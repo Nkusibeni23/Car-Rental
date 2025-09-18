@@ -52,7 +52,7 @@ export default function DashboardSidebar({
     <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
       {/* Logo */}
       <div className="p-6 border-b border-gray-200">
-        <h1 className="text-xl font-bold text-gray-900">Car Rental Hub</h1>
+        <h1 className="text-lg font-bold text-gray-900">Car Rental Hub</h1>
       </div>
 
       {/* Navigation */}
@@ -77,7 +77,7 @@ export default function DashboardSidebar({
       <div className="p-4 border-t border-gray-200">
         <button
           onClick={onLogout}
-          className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
         >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Logout</span>
