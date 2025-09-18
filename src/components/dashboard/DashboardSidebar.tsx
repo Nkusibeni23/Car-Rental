@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   LayoutDashboard,
   Car,
@@ -14,7 +15,6 @@ import {
 
 interface SidebarProps {
   activeTab: string;
-  onTabChange: (tab: string) => void;
   onLogout: () => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
@@ -24,7 +24,6 @@ interface SidebarProps {
 
 export default function DashboardSidebar({
   activeTab,
-  onTabChange,
   onLogout,
   isCollapsed,
   onToggleCollapse,
@@ -36,26 +35,31 @@ export default function DashboardSidebar({
       icon: LayoutDashboard,
       label: "Dashboard",
       key: "dashboard",
+      href: "/dashboard",
     },
     {
       icon: Car,
       label: "Listing",
       key: "listing",
+      href: "/dashboard/listing",
     },
     {
       icon: Calendar,
       label: "Booking",
       key: "booking",
+      href: "/dashboard/booking",
     },
     {
       icon: History,
       label: "Rental History",
       key: "history",
+      href: "/dashboard/history",
     },
     {
       icon: Settings,
       label: "Settings",
       key: "settings",
+      href: "/dashboard/settings",
     },
   ];
 
@@ -118,10 +122,10 @@ export default function DashboardSidebar({
         {/* Navigation */}
         <nav className="flex-1 p-3 space-y-1">
           {sidebarItems.map((item) => (
-            <button
+            <Link
               key={item.key}
+              href={item.href}
               onClick={() => {
-                onTabChange(item.key);
                 if (window.innerWidth < 1024) {
                   onMobileMenuToggle();
                 }
@@ -161,7 +165,7 @@ export default function DashboardSidebar({
                   {item.label}
                 </div>
               )}
-            </button>
+            </Link>
           ))}
         </nav>
 

@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import authService from "@/services/auth.service";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/app/shared/ToastProvider";
 
 function VerifyEmailContent() {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -28,7 +28,10 @@ function VerifyEmailContent() {
       try {
         await authService.verifyEmail(token);
         setStatus("success");
-        success("Email verified successfully! You can now sign in.");
+        success(
+          "Email Verified",
+          "Email verified successfully! You can now sign in."
+        );
 
         setTimeout(() => {
           router.push("/auth/signin");
@@ -39,7 +42,7 @@ function VerifyEmailContent() {
           (err as Error)?.message ||
           "Failed to verify email. The token may be invalid or expired.";
         setErrorMessage(errorMsg);
-        error(errorMsg);
+        error("Verification Failed", errorMsg);
       }
     };
 

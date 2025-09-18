@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Mail, ArrowLeft } from "lucide-react";
 import authService from "@/services/auth.service";
-import { useToast } from "@/components/ToastProvider";
+import { useToast } from "@/app/shared/ToastProvider";
 
 type ForgotPasswordForm = {
   email: string;
@@ -33,11 +33,11 @@ export default function ForgotPasswordPage() {
     try {
       await authService.requestPasswordResetOTP(data.email);
       setIsEmailSent(true);
-      success("OTP sent to your email address");
+      success("OTP Sent", "OTP sent to your email address");
     } catch (err) {
       const errorMessage =
         (err as Error)?.message || "Failed to send OTP. Please try again.";
-      error(errorMessage);
+      error("Request Failed", errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -50,11 +50,11 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
     try {
       await authService.requestPasswordResetOTP(email);
-      success("OTP sent again to your email");
+      success("OTP Resent", "OTP sent again to your email");
     } catch (err) {
       const errorMessage =
         (err as Error)?.message || "Failed to resend OTP. Please try again.";
-      error(errorMessage);
+      error("Resend Failed", errorMessage);
     } finally {
       setIsLoading(false);
     }
