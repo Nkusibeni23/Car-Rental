@@ -9,11 +9,14 @@ import {
   CreditCard,
   Shield,
   HelpCircle,
+  Receipt,
 } from "lucide-react";
 import SecuritySettings from "./SecuritySettings";
 import NotificationSettings from "./NotificationSettings";
 import PreferencesSettings from "./PreferencesSettings";
 import ProfileSettings from "./ProfileSettings";
+import PaymentSettings from "./PaymentSettings";
+import BillingSettings from "./BillingSettings";
 
 // Main Settings Component
 export default function SettingsContent() {
@@ -21,10 +24,11 @@ export default function SettingsContent() {
 
   const settingsSections = [
     { id: "profile", label: "Profile", icon: User },
+    { id: "payment", label: "Payment", icon: CreditCard },
     { id: "security", label: "Security", icon: Lock },
+    { id: "billing", label: "Billing", icon: Receipt },
     { id: "notifications", label: "Notifications", icon: Bell },
     { id: "preferences", label: "Preferences", icon: Settings },
-    { id: "billing", label: "Billing", icon: CreditCard },
     { id: "privacy", label: "Privacy", icon: Shield },
     { id: "help", label: "Help", icon: HelpCircle },
   ];
@@ -39,6 +43,10 @@ export default function SettingsContent() {
         return <NotificationSettings />;
       case "preferences":
         return <PreferencesSettings />;
+      case "payment":
+        return <PaymentSettings />;
+      case "billing":
+        return <BillingSettings />;
       default:
         return (
           <div className="text-center text-gray-500 py-8">
