@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Search, Edit, Trash2, Gauge, Fuel, SlidersHorizontal } from "lucide-react";
 
 // Mock data for demonstration
@@ -104,6 +105,7 @@ const mockCars = [
 ];
 
 export default function ListingContent() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 6;
@@ -143,7 +145,10 @@ export default function ListingContent() {
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
             Car Listings
           </h1>
-          <button className="bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+          <button 
+            onClick={() => router.push("/dashboard/add-listing")}
+            className="bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+          >
             Add Listing
           </button>
         </div>

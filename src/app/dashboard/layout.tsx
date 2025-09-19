@@ -24,6 +24,8 @@ export default function DashboardLayout({
         return "Dashboard";
       case "/dashboard/listing":
         return "Car Listing";
+      case "/dashboard/add-listing":
+        return "Add Car Details";
       case "/dashboard/booking":
         return "Bookings";
       case "/dashboard/history":
@@ -37,7 +39,7 @@ export default function DashboardLayout({
 
   const getActiveTab = () => {
     if (pathname === "/dashboard") return "dashboard";
-    if (pathname.startsWith("/dashboard/listing")) return "listing";
+    if (pathname.startsWith("/dashboard/listing") || pathname === "/dashboard/add-listing") return "listing";
     if (pathname.startsWith("/dashboard/booking")) return "booking";
     if (pathname.startsWith("/dashboard/history")) return "history";
     if (pathname.startsWith("/dashboard/settings")) return "settings";
