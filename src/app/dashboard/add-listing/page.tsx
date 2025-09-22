@@ -90,6 +90,21 @@ export default function AddListingPage() {
     currency: "RWF",
   });
 
+  // Info step form state
+  const [info, setInfo] = useState({
+    securityDepositAmount: "250,000",
+    driverRequirements: {
+      passportOrId: true,
+      drivingLicense: true,
+    },
+    damageExcess: "250,000",
+    fuelPolicy: "Same as to full",
+  });
+
+  // Image step form state
+  const [images, setImages] = useState<string[]>([]);
+  const [dragActive, setDragActive] = useState(false);
+
   const fuelTypeOptions = [
     { value: "petrol", label: "Petrol" },
     { value: "diesel", label: "Diesel" },
@@ -152,6 +167,56 @@ export default function AddListingPage() {
 
   const updatePrice = (field: string, value: string | boolean) => {
     setPrice(prev => ({ ...prev, [field]: value }));
+  };
+
+  const updateInfo = (field: string, value: string | boolean) => {
+    setInfo(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Image handling functions
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFiles(e.dataTransfer.files);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files && e.target.files[0]) {
+      handleFiles(e.target.files);
+    }
+  };
+
+  const handleFiles = (files: FileList) => {
+    Array.from(files).forEach((file) => {
+      if (file.type.startsWith('image/') && file.size <= 3 * 1024 * 1024) { // 3MB limit
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target?.result) {
+            setImages(prev => [...prev, e.target!.result as string]);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  };
+
+  const removeImage = (index: number) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
   };
 
   const renderListingInformation = () => (
@@ -454,12 +519,187 @@ export default function AddListingPage() {
     </div>
   );
 
+  const renderInfo = () => (
+    <div className="space-y-8">
+      <h2 className="text-2xl font-bold text-gray-900">Important Info</h2>
+      
+      {/* Driver & License Requirements */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Driver & license requirements</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          When you pick up your car, you'll need:
+        </p>
+        <div className="space-y-3">
+          <Checkbox
+            label="Passport or national ID card"
+            checked={info.driverRequirements.passportOrId}
+            onChange={(checked) => setInfo(prev => ({ ...prev, driverRequirements: { ...prev.driverRequirements, passportOrId: checked } }))}
+          />
+          <Checkbox
+            label="Driving licence"
+            checked={info.driverRequirements.drivingLicense}
+            onChange={(checked) => setInfo(prev => ({ ...prev, driverRequirements: { ...prev.driverRequirements, drivingLicense: checked } }))}
+          />
+        </div>
+      </div>
+
+      {/* Security Deposit Amount Input */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Security Deposit Amount</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Amount
+            </label>
+            <input
+              type="text"
+              value={info.securityDepositAmount}
+              onChange={(e) => updateInfo("securityDepositAmount", e.target.value)}
+              placeholder="Enter amount"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Currency
+            </label>
+            <select
+              value={price.currency}
+              onChange={(e) => updatePrice("currency", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            >
+              {currencyOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Security Deposit */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Security deposit</h3>
+        <p className="text-sm text-gray-600">
+          At pick-up, the main driver will leave a refundable security deposit of {info.securityDepositAmount} {price.currency} on their credit or debit card or Cash.
+        </p>
+      </div>
+
+      {/* Damage Excess */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Damage Excess</h3>
+        <p className="text-sm text-gray-600">
+          If the car's bodywork gets damaged, the most you'll pay towards repairs covered by the Collision Damage Waiver is the damage excess ({info.damageExcess} {price.currency}). This cover is only valid if you stick to the terms of the rental agreement. It doesn't cover other parts of the car (e.g. windows, wheels, interior or undercarriage), or charges (e.g. for towing or off-road time), or anything in the car (e.g. child seats, GPS devices or personal belongings).
+        </p>
+      </div>
+
+      {/* Fuel Policy */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Fuel Policy</h3>
+        <p className="text-sm text-gray-600">
+          If the car's bodywork gets damaged, the most you'll pay towards repairs covered by the Collision Damage Waiver is the damage excess ({info.damageExcess} {price.currency}). This cover is only valid if you stick to the terms of the rental agreement. It doesn't cover other parts of the car (e.g. windows, wheels, interior or undercarriage), or charges (e.g. for towing or off-road time), or anything in the car (e.g. child seats, GPS devices or personal belongings).
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderImage = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900">Car Images</h2>
+      
+      {/* Drag & Drop Upload Area */}
+      <div
+        className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          dragActive 
+            ? "border-black bg-gray-50" 
+            : "border-gray-300 hover:border-gray-400"
+        }`}
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
+      >
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleChange}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        />
+        
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          
+          <div>
+            <p className="text-lg font-medium text-gray-900">
+              Click this area or drag & drop the image of the car.
+            </p>
+            <p className="text-sm text-gray-500 mt-1">
+              You can upload files up to 3 MB in size.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Image Thumbnails */}
+      <div className="grid grid-cols-5 gap-4">
+        {images.length > 0 ? (
+          <>
+            {images.slice(0, 5).map((image, index) => (
+              <div key={index} className="relative group">
+                <img
+                  src={image}
+                  alt={`Car image ${index + 1}`}
+                  className="w-full h-24 object-cover rounded-lg border border-gray-200 shadow-sm"
+                />
+                <button
+                  onClick={() => removeImage(index)}
+                  className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            
+            {/* Show "+X more" if there are more than 5 images */}
+            {images.length > 5 && (
+              <div className="relative">
+                <div className="w-full h-24 bg-gray-200 rounded-lg border border-gray-200 flex items-center justify-center shadow-sm">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-600">+{images.length - 5}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          // Show placeholder thumbnails when no images are uploaded
+          Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="w-full h-24 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+              <div className="text-gray-400 text-xs">No image</div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 0:
         return renderListingInformation();
       case 1:
         return renderFeatures();
+      case 2:
+        return renderInfo();
+      case 3:
+        return renderImage();
       default:
         return <div>Step not implemented yet</div>;
     }

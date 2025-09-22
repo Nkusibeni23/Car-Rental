@@ -141,11 +141,8 @@ export default function ListingContent() {
     <div className="flex-1 p-4 lg:p-8 h-full overflow-auto bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header with Add Listing Button */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
-            Car Listings
-          </h1>
-          <button 
+        <div className="flex justify-end items-center mb-6">
+          <button
             onClick={() => router.push("/dashboard/add-listing")}
             className="bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
           >

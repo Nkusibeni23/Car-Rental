@@ -9,10 +9,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fullcalendar/core": "^5.11.5",
+    "@fullcalendar/daygrid": "^5.11.5",
+    "@fullcalendar/interaction": "^5.11.5",
+    "@fullcalendar/react": "^5.11.5",
+    "@fullcalendar/timegrid": "^5.11.5",
     "@headlessui/react": "^2.2.8",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^1.12.2",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "lucide-react": "^0.544.0",
     "next": "15.5.3",
     "react": "19.1.0",
