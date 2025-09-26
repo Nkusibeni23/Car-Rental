@@ -5,19 +5,70 @@ import { Bell, X, AlertCircle, Info, CheckCircle, Clock } from "lucide-react";
 import "../../app/globals.css";
 import { LuBell } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchNotifications } from "@/store/slices/notificationSlice";
+import {
+  fetchNotifications,
+  removeNotification,
+} from "@/store/slices/notificationSlice";
+import { useToast } from "@/app/shared/ToastProvider";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { notifications } = useAppSelector((state) => state.notifications);
+  const { user } = useAppSelector((state) => state.auth);
+  const { success: showToast } = useToast();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const prevNotificationCount = useRef(0);
+  const isInitialLoad = useRef(true);
 
   const unreadCount =
     notifications && notifications.filter((n) => n.status === "unread").length;
 
-  // Close dropdown when clicking outside
+  // Initialize audio
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/audio/notification_sound_3.mp3");
+      audioRef.current.preload = "auto";
+    }
+  }, []);
+
+  // Play sound and show toast for new notifications
+  useEffect(() => {
+    if (isInitialLoad.current) {
+      prevNotificationCount.current = notifications.length;
+      isInitialLoad.current = false;
+      return;
+    }
+
+    if (notifications.length > prevNotificationCount.current) {
+      const playSound = async () => {
+        try {
+          if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            await audioRef.current.play();
+          }
+        } catch (error) {
+          console.warn("Could not play notification sound:", error);
+        }
+      };
+
+      const latestNotification =
+        [...notifications].reverse().find((n) => n.status === "unread") || null;
+
+      // Play sound
+      playSound();
+
+      // Show toast notification
+      if (latestNotification) {
+        showToast("You have a new notification 🔔", latestNotification.message);
+      }
+    }
+
+    prevNotificationCount.current = notifications.length;
+  }, [notifications.length, showToast]);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -33,30 +84,10 @@ export default function NotificationDropdown() {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchNotifications({ skip: 0, limit: 10 })).unwrap();
+    dispatch(
+      fetchNotifications({ skip: 0, limit: 10, userId: user?.id })
+    ).unwrap();
   }, [dispatch]);
-
-  // const markAsRead = (id: string) => {
-  //   setNotifications((prev) =>
-  //     prev.map((notification) =>
-  //       notification.id === id
-  //         ? { ...notification, isRead: true }
-  //         : notification
-  //     )
-  //   );
-  // };
-
-  // const markAllAsRead = () => {
-  //   setNotifications((prev) =>
-  //     prev.map((notification) => ({ ...notification, isRead: true }))
-  //   );
-  // };
-
-  // const removeNotification = (id: string) => {
-  //   setNotifications((prev) =>
-  //     prev.filter((notification) => notification.id !== id)
-  //   );
-  // };
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
@@ -100,6 +131,8 @@ export default function NotificationDropdown() {
           </span>
         )}
       </button>
+
+      {/* <audio ref={audioRef} src="sound/notification_sound_1.wav" /> */}
 
       {/* Dropdown Menu */}
       {isOpen && (
@@ -176,7 +209,7 @@ export default function NotificationDropdown() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            // removeNotification(notification.id);
+                            dispatch(removeNotification(notification.id));
                           }}
                           className="ml-2 p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
                         >

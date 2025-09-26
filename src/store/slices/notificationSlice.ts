@@ -19,14 +19,13 @@ const initialState: NotificationState = {
 
 export const fetchNotifications = createAsyncThunk<
   { notifications: Notification[] },
-  { skip?: number; limit?: number },
+  { skip?: number; limit?: number; userId?: number | undefined },
   { rejectValue: string }
 >(
   "notifications/fetchNotifications",
   async (params = {}, { rejectWithValue }) => {
     try {
       const response = await notificationService.getNotifications(params);
-      console.log("Fetched notifications:", response);
       return {
         notifications: response.data.rows,
       };
@@ -99,7 +98,6 @@ const notificationSlice = createSlice({
       })
       .addCase(fetchNotifications.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log("action.payload.notifications", action.payload);
         state.notifications = action.payload.notifications;
         state.error = null;
       })

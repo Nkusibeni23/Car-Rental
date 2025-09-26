@@ -6,6 +6,8 @@ import {
   incrementReconnectAttempts,
   resetSocket,
 } from "../slices/socketSlice";
+import { Notification } from "@/types/notification";
+import { addNotification } from "../slices/notificationSlice";
 
 export const SOCKET_CONNECT = "socket/connect";
 export const SOCKET_DISCONNECT = "socket/disconnect";
@@ -52,7 +54,6 @@ export const socketMiddleware: Middleware<{ dispatch: Dispatch<AnyAction> }> =
           socketInstance.disconnect();
           socketInstance = null;
         }
-
         socketInstance = io(apiUrl, {
           auth: { token: accessToken },
           reconnection: true,
@@ -81,6 +82,13 @@ export const socketMiddleware: Middleware<{ dispatch: Dispatch<AnyAction> }> =
             setConnectionError(error.message || "Socket error occurred")
           );
         });
+
+        socketInstance.on(
+          "newNotification",
+          (data: { data: Notification; type: string; timestamp: string }) => {
+            store.dispatch(addNotification(data.data));
+          }
+        );
 
         break;
       }

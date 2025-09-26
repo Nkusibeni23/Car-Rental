@@ -27,11 +27,6 @@ export const useSocket = (
     } else {
       dispatch(disconnectSocket());
     }
-
-    // Cleanup on unmount
-    return () => {
-      dispatch(disconnectSocket());
-    };
   }, [apiUrl, accessToken, dispatch]);
 
   return {
