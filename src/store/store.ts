@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 import socketReducer from "./slices/socketSlice";
+import notificationReducer from "./slices/notificationSlice";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 
 export const store = configureStore({
   reducer: {
     socket: socketReducer,
     auth: authReducer,
+    notifications: notificationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
