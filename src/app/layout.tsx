@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import AuthInitializer from "@/components/AuthInitializer";
 import "./globals.css";
 import ToastProvider from "@/app/shared/ToastProvider";
+import { SocketProvider } from "@/components/SocketProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,7 +39,9 @@ export default function RootLayout({
         <Provider store={store}>
           <ToastProvider>
             <AuthInitializer>
-              <LayoutContent>{children}</LayoutContent>
+              <SocketProvider apiUrl={process.env.NEXT_PUBLIC_SOCKET_URL!}>
+                <LayoutContent>{children}</LayoutContent>
+              </SocketProvider>
             </AuthInitializer>
           </ToastProvider>
         </Provider>
