@@ -36,6 +36,20 @@ export const fetchNotifications = createAsyncThunk<
   }
 );
 
+export const markNotificationAsRead = createAsyncThunk<
+  Notification,
+  number,
+  { rejectValue: string }
+>("notifications/markAsRead", async (id, { rejectWithValue }) => {
+  try {
+    const response = await notificationService.markAsRead(+id);
+    return response.data;
+  } catch (error) {
+    const apiError = error as ApiError;
+    return rejectWithValue(apiError.message);
+  }
+});
+
 const notificationSlice = createSlice({
   name: "notifications",
   initialState,
@@ -56,16 +70,20 @@ const notificationSlice = createSlice({
       );
       if (index !== -1) {
         const notification = state.notifications[index];
-        if (notification.status === "read") {
+        if (notification.status === "unread") {
           state.unreadCount = Math.max(0, state.unreadCount - 1);
         }
         state.notifications.splice(index, 1);
       }
     },
+
     updateNotificationInState: (state, action: PayloadAction<Notification>) => {
       const index = state.notifications.findIndex(
         (n) => n.id === action.payload.id
       );
+
+      console.log("response $$$$$$$$$$$$$$", action.payload);
+
       if (index !== -1) {
         const oldNotification = state.notifications[index];
         const wasUnread = oldNotification.status === "unread";
@@ -81,16 +99,18 @@ const notificationSlice = createSlice({
         }
       }
     },
+
     clearAllNotifications: (state) => {
       state.notifications = [];
       state.unreadCount = 0;
     },
+
     setUnreadCount: (state, action: PayloadAction<number>) => {
       state.unreadCount = action.payload;
     },
   },
+
   extraReducers: (builder) => {
-    // Fetch notifications cases
     builder
       .addCase(fetchNotifications.pending, (state) => {
         state.isLoading = true;
@@ -104,6 +124,37 @@ const notificationSlice = createSlice({
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to fetch notifications";
+      })
+
+      .addCase(markNotificationAsRead.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(markNotificationAsRead.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const index = state.notifications.findIndex(
+          (n) => n.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          const oldNotification = state.notifications[index];
+          const wasUnread = oldNotification.status === "unread";
+          const isNowRead = action.payload.status === "read";
+
+          state.notifications[index] = action.payload;
+
+          if (wasUnread && isNowRead) {
+            state.unreadCount = Math.max(0, state.unreadCount - 1);
+          } else if (!wasUnread && !isNowRead) {
+            state.unreadCount += 1;
+          }
+        }
+
+        state.error = null;
+      })
+      .addCase(markNotificationAsRead.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || "Failed to mark notification as read";
       });
   },
 });

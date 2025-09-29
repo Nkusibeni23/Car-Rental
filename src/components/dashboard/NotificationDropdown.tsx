@@ -7,6 +7,7 @@ import { LuBell } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchNotifications,
+  markNotificationAsRead,
   removeNotification,
 } from "@/store/slices/notificationSlice";
 import { useToast } from "@/app/shared/ToastProvider";
@@ -148,7 +149,7 @@ export default function NotificationDropdown() {
                   // onClick={markAllAsRead}
                   className="text-sm text-gray-800 hover:text-gray-800 font-semibold transition-colors cursor-pointer"
                 >
-                  Mark all read
+                  Mark all read onClick=
                 </button>
               )}
             </div>
@@ -170,7 +171,17 @@ export default function NotificationDropdown() {
                       ? "bg-gray-50 border-l-4 border-l-gray-500"
                       : ""
                   }`}
-                  // onClick={() => markAsRead(notification.id)}
+                  onClick={async () => {
+                    if (notification.actionUrl || notification.id) {
+                      await dispatch(
+                        markNotificationAsRead(notification.id)
+                      ).unwrap();
+
+                      if (notification.actionUrl) {
+                        window.location.href = notification.actionUrl;
+                      }
+                    }
+                  }}
                 >
                   <div className="flex items-start space-x-3">
                     <div className="flex-shrink-0 mt-0.5">

@@ -1,6 +1,6 @@
 import apiClient from "@/lib/api";
 import { ApiError } from "@/types/Api";
-import { NotificationsListResponse } from "@/types/notification";
+import { NotificationsListResponse, Notification } from "@/types/notification";
 
 import { AxiosError } from "axios";
 
@@ -47,6 +47,26 @@ class NotificationService {
       return {
         message: error.message || "An unexpected error occurred",
       };
+    }
+  }
+
+  // Mark notifications as read
+  async markAsRead(id: number): Promise<{ data: Notification }> {
+    try {
+      const response = await apiClient.patch(
+        `/notifications/mark-as-read/${id}`
+      );
+      return response;
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  async markAllAsRead(): Promise<void> {
+    try {
+      await apiClient.patch("/notifications/mark-all-as-read");
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
     }
   }
 }
