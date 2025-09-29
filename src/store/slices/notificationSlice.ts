@@ -50,6 +50,23 @@ export const markNotificationAsRead = createAsyncThunk<
   }
 });
 
+export const markAllNotificationsAsRead = createAsyncThunk<
+  Notification[],
+  void,
+  { rejectValue: string }
+>("notifications/markAllAsRead", async (_, { rejectWithValue }) => {
+  try {
+    const response = await notificationService.markAllAsRead();
+
+    console.log("Mark All API Response:", response);
+
+    return response.data;
+  } catch (error) {
+    const apiError = error as ApiError;
+    return rejectWithValue(apiError.message);
+  }
+});
+
 const notificationSlice = createSlice({
   name: "notifications",
   initialState,
@@ -155,6 +172,32 @@ const notificationSlice = createSlice({
       .addCase(markNotificationAsRead.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to mark notification as read";
+      })
+
+      // Mark all notifications as read
+      .addCase(markAllNotificationsAsRead.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(markAllNotificationsAsRead.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        console.log("Mark All Fulfilled  Payload:", action.payload);
+
+        // Update all notifications in state to "read"
+        state.notifications = state.notifications.map((notification) => ({
+          ...notification,
+          status: "read",
+        }));
+
+        // Reset unread count to 0
+        state.unreadCount = 0;
+        state.error = null;
+      })
+      .addCase(markAllNotificationsAsRead.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          action.payload || "Failed to mark all notifications as read";
       });
   },
 });

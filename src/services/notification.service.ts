@@ -62,9 +62,9 @@ class NotificationService {
     }
   }
 
-  async markAllAsRead(): Promise<void> {
+  async markAllAsRead(): Promise<{ data: Notification[] }> {
     try {
-      await apiClient.patch("/notifications/mark-all-as-read");
+      return await apiClient.patch("/notifications/mark-all-as-read");
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }

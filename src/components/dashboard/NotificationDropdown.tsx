@@ -2,11 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Bell, X, AlertCircle, Info, CheckCircle, Clock } from "lucide-react";
-import "../../app/globals.css";
 import { LuBell } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchNotifications,
+  markAllNotificationsAsRead,
   markNotificationAsRead,
   removeNotification,
 } from "@/store/slices/notificationSlice";
@@ -16,6 +16,7 @@ export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { notifications } = useAppSelector((state) => state.notifications);
+  // const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth);
   const { success: showToast } = useToast();
 
@@ -26,6 +27,14 @@ export default function NotificationDropdown() {
 
   const unreadCount =
     notifications && notifications.filter((n) => n.status === "unread").length;
+
+  useEffect(() => {
+    if (user && user.id) {
+      dispatch(
+        fetchNotifications({ skip: 0, limit: 10, userId: user.id })
+      ).unwrap();
+    }
+  }, [dispatch, user]);
 
   // Initialize audio
   useEffect(() => {
@@ -84,12 +93,6 @@ export default function NotificationDropdown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    dispatch(
-      fetchNotifications({ skip: 0, limit: 10, userId: user?.id })
-    ).unwrap();
-  }, [dispatch]);
-
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case "success":
@@ -146,10 +149,12 @@ export default function NotificationDropdown() {
               </h3>
               {unreadCount > 0 && (
                 <button
-                  // onClick={markAllAsRead}
+                  onClick={async () => {
+                    await dispatch(markAllNotificationsAsRead()).unwrap();
+                  }}
                   className="text-sm text-gray-800 hover:text-gray-800 font-semibold transition-colors cursor-pointer"
                 >
-                  Mark all read onClick=
+                  Mark all read
                 </button>
               )}
             </div>
