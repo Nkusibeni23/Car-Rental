@@ -2,105 +2,154 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Edit, Trash2, Gauge, Fuel, SlidersHorizontal } from "lucide-react";
+import Image from "next/image";
+import { Search, Trash2, Gauge, Fuel, SlidersHorizontal } from "lucide-react";
 
-// Mock data for demonstration
+// Mock data for demonstration with diverse cars and images
 const mockCars = [
   {
     id: 1,
-    make: "Toyota",
-    model: "Hilux",
+    make: "BMW",
+    model: "X3",
     year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
+    variant: "2.0 xDrive20d M Sport 5dr Auto Estate",
+    mileage: "28,900 M",
     fuelType: "Diesel",
     transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    imageUrl: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&h=400&fit=crop&crop=center",
+    price: 75000
   },
   {
     id: 2,
-    make: "Toyota",
-    model: "Hilux",
-    year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
-    fuelType: "Diesel",
+    make: "Honda",
+    model: "CR-V",
+    year: 2021,
+    variant: "1.5 VTEC Turbo EX 5dr CVT AWD Estate",
+    mileage: "45,200 M",
+    fuelType: "Petrol",
     transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    imageUrl: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop&crop=center",
+    price: 42000
   },
   {
     id: 3,
-    make: "Toyota",
-    model: "Hilux",
-    year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
+    make: "Mercedes-Benz",
+    model: "GLC",
+    year: 2023,
+    variant: "2.0 GLC 220d AMG Line 5dr Auto Estate",
+    mileage: "12,300 M",
     fuelType: "Diesel",
     transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop&crop=center",
+    price: 85000
   },
   {
     id: 4,
-    make: "Toyota",
-    model: "Hilux",
+    make: "BMW",
+    model: "X3",
     year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
+    variant: "2.0 xDrive20d M Sport 5dr Auto Estate",
+    mileage: "28,900 M",
     fuelType: "Diesel",
     transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    imageUrl: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&h=400&fit=crop&crop=center",
+    price: 75000
   },
   {
     id: 5,
-    make: "Toyota",
-    model: "Hilux",
-    year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
+    make: "Mercedes-Benz",
+    model: "GLC",
+    year: 2023,
+    variant: "2.0 GLC 220d AMG Line 5dr Auto Estate",
+    mileage: "12,300 M",
     fuelType: "Diesel",
     transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop&crop=center",
+    price: 85000
   },
   {
     id: 6,
-    make: "Toyota",
-    model: "Hilux",
+    make: "Mazda",
+    model: "CX-5",
     year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
-    fuelType: "Diesel",
-    transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    variant: "2.0 SKYACTIV-G SE-L Nav+ 5dr Manual Estate",
+    mileage: "35,600 M",
+    fuelType: "Petrol",
+    transmission: "Manual",
+    imageUrl: "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&h=400&fit=crop&crop=center",
+    price: 40000
   },
   {
     id: 7,
-    make: "Toyota",
-    model: "Hilux",
-    year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
+    make: "Mercedes-Benz",
+    model: "GLC",
+    year: 2023,
+    variant: "2.0 GLC 220d AMG Line 5dr Auto Estate",
+    mileage: "12,300 M",
     fuelType: "Diesel",
     transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop&crop=center",
+    price: 85000
   },
   {
     id: 8,
-    make: "Toyota",
-    model: "Hilux",
-    year: 2022,
-    variant: "2.0 D5 Power Pulse Momentum 5dr AWD Geartronic Estate",
-    mileage: "72,900 M",
+    make: "Mercedes-Benz",
+    model: "GLC",
+    year: 2023,
+    variant: "2.0 GLC 220d AMG Line 5dr Auto Estate",
+    mileage: "12,300 M",
     fuelType: "Diesel",
     transmission: "Automatic",
-    imageUrl: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-    price: 45000
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop&crop=center",
+    price: 85000
+  },
+  {
+    id: 9,
+    make: "Mercedes-Benz",
+    model: "GLC",
+    year: 2023,
+    variant: "2.0 GLC 220d AMG Line 5dr Auto Estate",
+    mileage: "12,300 M",
+    fuelType: "Diesel",
+    transmission: "Automatic",
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop&crop=center",
+    price: 85000
+  },
+  {
+    id: 10,
+    make: "Audi",
+    model: "Q5",
+    year: 2022,
+    variant: "2.0 TDI 40 S Line 5dr S Tronic Estate",
+    mileage: "22,400 M",
+    fuelType: "Diesel",
+    transmission: "Automatic",
+    imageUrl: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&h=400&fit=crop&crop=center",
+    price: 68000
+  },
+  {
+    id: 11,
+    make: "Land Rover",
+    model: "Discovery Sport",
+    year: 2021,
+    variant: "2.0 P200 S 5dr Manual Estate",
+    mileage: "38,700 M",
+    fuelType: "Petrol",
+    transmission: "Manual",
+    imageUrl: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=400&fit=crop&crop=center",
+    price: 72000
+  },
+  {
+    id: 12,
+    make: "Mercedes-Benz",
+    model: "GLC",
+    year: 2023,
+    variant: "2.0 GLC 220d AMG Line 5dr Auto Estate",
+    mileage: "12,300 M",
+    fuelType: "Diesel",
+    transmission: "Automatic",
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=400&fit=crop&crop=center",
+    price: 85000
   }
 ];
 
@@ -178,10 +227,14 @@ export default function ListingContent() {
             <div key={car.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
               {/* Car Image */}
               <div className="relative h-64 border-b border-gray-200">
-                <img
+                <Image
                   src={car.imageUrl}
                   alt={`${car.make} ${car.model} ${car.year}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&h=400&fit=crop&crop=center";
+                  }}
                 />
                 {/* Dark gradient overlay for text readability */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>

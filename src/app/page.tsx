@@ -7,7 +7,7 @@ import { Car } from "@/types/car";
 
 export default function Home() {
 
-  // Sample car data
+  // Sample car data with diverse, high-quality images
   const cars: Car[] = [
     {
       id: "1",
@@ -16,7 +16,7 @@ export default function Home() {
       year: 2022,
       seats: 5,
       pricePerDay: 45000,
-      image: "https://images.unsplash.com/photo-1549317336-206569e8475c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      image: "https://images.unsplash.com/photo-1549317336-206569e8475c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Backup Camera"],
       location: "Kigali",
@@ -30,7 +30,7 @@ export default function Home() {
       year: 2021,
       seats: 5,
       pricePerDay: 42000,
-      image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Sunroof"],
       location: "Kigali",
@@ -44,7 +44,7 @@ export default function Home() {
       year: 2023,
       seats: 7,
       pricePerDay: 55000,
-      image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Third Row Seating"],
       location: "Kigali",
@@ -58,7 +58,7 @@ export default function Home() {
       year: 2022,
       seats: 5,
       pricePerDay: 40000,
-      image: "https://images.unsplash.com/photo-1502877338535-766e1452684a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      image: "https://images.unsplash.com/photo-1502877338535-766e1452684a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: false,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Leather Seats"],
       location: "Kigali",
@@ -72,7 +72,7 @@ export default function Home() {
       year: 2021,
       seats: 5,
       pricePerDay: 38000,
-      image: "https://images.unsplash.com/photo-1549317336-206569e8475c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Heated Seats"],
       location: "Kigali",
@@ -86,12 +86,54 @@ export default function Home() {
       year: 2023,
       seats: 5,
       pricePerDay: 48000,
-      image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "All-Wheel Drive"],
       location: "Kigali",
       mileage: 12000,
       rating: 4.8
+    },
+    {
+      id: "7",
+      make: "BMW",
+      model: "X3",
+      year: 2022,
+      seats: 5,
+      pricePerDay: 75000,
+      image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      available: true,
+      features: ["GPS", "Bluetooth", "Air Conditioning", "Leather Seats", "Premium Sound"],
+      location: "Kigali",
+      mileage: 12000,
+      rating: 4.9
+    },
+    {
+      id: "8",
+      make: "Mercedes-Benz",
+      model: "GLC",
+      year: 2023,
+      seats: 5,
+      pricePerDay: 85000,
+      image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      available: true,
+      features: ["GPS", "Bluetooth", "Air Conditioning", "Premium Interior", "Panoramic Sunroof"],
+      location: "Kigali",
+      mileage: 8000,
+      rating: 4.9
+    },
+    {
+      id: "9",
+      make: "Volkswagen",
+      model: "Tiguan",
+      year: 2021,
+      seats: 5,
+      pricePerDay: 50000,
+      image: "https://images.unsplash.com/photo-15493999019-8ccdd3c5770f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      available: true,
+      features: ["GPS", "Bluetooth", "Air Conditioning", "All-Wheel Drive", "Roof Rails"],
+      location: "Kigali",
+      mileage: 20000,
+      rating: 4.7
     }
   ];
 
