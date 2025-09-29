@@ -29,6 +29,14 @@ class AuthService {
     }
   }
 
+  async enable2FA(): Promise<{ data: { message: string } }> {
+    try {
+      return await apiClient.patch("/users/enable-2fa");
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
   // Register user
   async register(userData: RegisterRequest): Promise<AuthResponse> {
     try {

@@ -48,6 +48,20 @@ export const registerUser = createAsyncThunk<
   }
 });
 
+export const enable2FA = createAsyncThunk<
+  { message: string },
+  void,
+  { rejectValue: string }
+>("users/enable-2fa", async (_, { rejectWithValue }) => {
+  try {
+    const response = await authService.enable2FA();
+    return response.data;
+  } catch (error) {
+    const apiError = error as ApiError;
+    return rejectWithValue(apiError.message);
+  }
+});
+
 export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
   "auth/logout",
   async (_, { rejectWithValue }) => {
@@ -226,6 +240,21 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || "Failed to change password";
+      })
+
+      // Enable 2FA cases
+      .addCase(enable2FA.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(enable2FA.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user!.is2fa = true;
+        state.error = null;
+      })
+      .addCase(enable2FA.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to change password";
       });

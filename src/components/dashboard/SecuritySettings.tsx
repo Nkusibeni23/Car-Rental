@@ -1,10 +1,16 @@
+import { enable2FA } from "@/store/authSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useToast } from "@/app/shared/ToastProvider";
 import { Bell, Lock } from "lucide-react";
 import React, { useState } from "react";
 
 export default function SecuritySettings() {
+  const { user } = useAppSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useAppDispatch();
+  const { success: showToast } = useToast();
 
   return (
     <div className="space-y-6">
@@ -93,9 +99,29 @@ export default function SecuritySettings() {
               Add an extra layer of security to your account
             </p>
           </div>
-          <button className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-900 transition-colors cursor-pointer">
-            Enable
-          </button>
+
+          {user && (
+            <button
+              disabled={user.is2fa}
+              className={`${
+                user.is2fa
+                  ? "bg-gray-300 text-gray-400"
+                  : "bg-gray-700 text-white"
+              } px-4 py-2 rounded-lg hover:bg-gray-900 transition-colors cursor-pointer`}
+              onClick={async () => {
+                const response = await dispatch(enable2FA()).unwrap();
+                console.log("2FA Enabled:", response);
+                if (response) {
+                  showToast(
+                    "Two-Factor Authentication enabled",
+                    response.message
+                  );
+                }
+              }}
+            >
+              {user.is2fa ? "Enabled" : "Enable"}
+            </button>
+          )}
         </div>
       </div>
 

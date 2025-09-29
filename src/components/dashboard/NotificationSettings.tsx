@@ -11,7 +11,7 @@ export default function NotificationSettings() {
           className="text-base md:text-l
         g font-semibold text-gray-900 mb-4"
         >
-          Email Notifications
+          Notifications
         </h3>
         <div className="space-y-4">
           {notifications.map((item, index) => (
