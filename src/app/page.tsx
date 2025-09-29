@@ -141,16 +141,21 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Hero Section */}
-      <div className="relative h-screen">
+      <div className="relative h-[70vh]">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1502877338535-766e1452684a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
+            backgroundImage: "url('https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
           }}
         >
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          {/* Secondary Car Image Overlay */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+            style={{
+              backgroundImage: "url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
+            }}
+          ></div>
         </div>
 
         {/* Hero Content */}
@@ -188,8 +193,8 @@ export default function Home() {
         </div>
 
         {/* Search Form */}
-        <div className="absolute bottom-0 left-0 right-0 z-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="absolute bottom-4 left-0 right-0 z-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
             <div className="bg-white rounded-2xl shadow-2xl p-6">
               <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
                 {/* Pick-up Location */}
@@ -286,12 +291,12 @@ export default function Home() {
       </div>
 
       {/* Content Below Hero */}
-      <div className="bg-white py-16">
+      <div className="bg-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Filter Sidebar */}
             <div className="lg:col-span-1">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-4">
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-lg font-semibold text-gray-900">Filter</h3>
                   <button className="text-sm text-gray-500 hover:text-gray-700">
