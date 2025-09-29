@@ -2,7 +2,7 @@
 
 import React from "react";
 import { MapPin, Calendar, Clock, Search } from "lucide-react";
-import CarCard from "@/components/CarCard";
+import HorizontalCarCard from "@/components/HorizontalCarCard";
 import { Car } from "@/types/car";
 
 export default function Home() {
@@ -20,36 +20,36 @@ export default function Home() {
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Premium Interior", "Panoramic Sunroof"],
       location: "Kigali",
-      mileage: 8000,
+      mileage: 150,
       rating: 4.9
     },
     {
       id: "2",
-      make: "Mercedes-Benz",
-      model: "GLC",
-      year: 2023,
+      make: "Toyota",
+      model: "Camry",
+      year: 2020,
       seats: 5,
-      pricePerDay: 85000,
-      image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      pricePerDay: 45000,
+      image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
-      features: ["GPS", "Bluetooth", "Air Conditioning", "Premium Interior", "Panoramic Sunroof"],
+      features: ["GPS", "Bluetooth", "Air Conditioning", "Hybrid"],
       location: "Kigali",
-      mileage: 8000,
-      rating: 4.9
+      mileage: 380,
+      rating: 4.6
     },
     {
       id: "3",
-      make: "Mercedes-Benz",
-      model: "GLC",
-      year: 2023,
+      make: "Honda",
+      model: "Civic",
+      year: 2019,
       seats: 5,
-      pricePerDay: 85000,
-      image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      pricePerDay: 42000,
+      image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
-      features: ["GPS", "Bluetooth", "Air Conditioning", "Premium Interior", "Panoramic Sunroof"],
+      features: ["GPS", "Bluetooth", "Air Conditioning", "Sunroof"],
       location: "Kigali",
-      mileage: 8000,
-      rating: 4.9
+      mileage: 320,
+      rating: 4.7
     },
     {
       id: "4",
@@ -62,53 +62,11 @@ export default function Home() {
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Leather Seats", "Premium Sound"],
       location: "Kigali",
-      mileage: 12000,
+      mileage: 280,
       rating: 4.9
     },
     {
       id: "5",
-      make: "BMW",
-      model: "X3",
-      year: 2022,
-      seats: 5,
-      pricePerDay: 75000,
-      image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      available: true,
-      features: ["GPS", "Bluetooth", "Air Conditioning", "Leather Seats", "Premium Sound"],
-      location: "Kigali",
-      mileage: 12000,
-      rating: 4.9
-    },
-    {
-      id: "6",
-      make: "BMW",
-      model: "X3",
-      year: 2022,
-      seats: 5,
-      pricePerDay: 75000,
-      image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      available: true,
-      features: ["GPS", "Bluetooth", "Air Conditioning", "Leather Seats", "Premium Sound"],
-      location: "Kigali",
-      mileage: 12000,
-      rating: 4.9
-    },
-    {
-      id: "7",
-      make: "BMW",
-      model: "X3",
-      year: 2022,
-      seats: 5,
-      pricePerDay: 75000,
-      image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      available: true,
-      features: ["GPS", "Bluetooth", "Air Conditioning", "Leather Seats", "Premium Sound"],
-      location: "Kigali",
-      mileage: 12000,
-      rating: 4.9
-    },
-    {
-      id: "8",
       make: "Mercedes-Benz",
       model: "GLC",
       year: 2023,
@@ -118,22 +76,36 @@ export default function Home() {
       available: true,
       features: ["GPS", "Bluetooth", "Air Conditioning", "Premium Interior", "Panoramic Sunroof"],
       location: "Kigali",
-      mileage: 8000,
+      mileage: 150,
       rating: 4.9
     },
     {
-      id: "9",
-      make: "Volkswagen",
-      model: "Tiguan",
+      id: "6",
+      make: "Hyundai",
+      model: "Tucson",
       year: 2021,
       seats: 5,
-      pricePerDay: 50000,
-      image: "https://images.unsplash.com/photo-15493999019-8ccdd3c5770f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      pricePerDay: 48000,
+      image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       available: true,
-      features: ["GPS", "Bluetooth", "Air Conditioning", "All-Wheel Drive", "Roof Rails"],
+      features: ["GPS", "Bluetooth", "Air Conditioning", "Heated Seats"],
       location: "Kigali",
-      mileage: 20000,
-      rating: 4.7
+      mileage: 400,
+      rating: 4.5
+    },
+    {
+      id: "7",
+      make: "Mercedes-Benz",
+      model: "GLC",
+      year: 2023,
+      seats: 5,
+      pricePerDay: 85000,
+      image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      available: true,
+      features: ["GPS", "Bluetooth", "Air Conditioning", "Premium Interior", "Panoramic Sunroof"],
+      location: "Kigali",
+      mileage: 150,
+      rating: 4.9
     }
   ];
 
@@ -141,7 +113,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Hero Section */}
-      <div className="relative h-[70vh]">
+      <div className="relative h-[80vh]">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -308,20 +280,202 @@ export default function Home() {
                 <div className="mb-6">
                   <h4 className="text-sm font-medium text-gray-700 mb-3">Transmission</h4>
                   <div className="space-y-2">
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        defaultChecked
-                        className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                      />
-                      <span className="ml-2 text-sm text-gray-600">Automatic</span>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          defaultChecked
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Automatic</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(4)</span>
                     </label>
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                      />
-                      <span className="ml-2 text-sm text-gray-600">Manual</span>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Manually</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(2)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Price per day Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">Price per day</h4>
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">30,000 Rfw - 100,000 Rfw</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(4)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">110,000 Rfw - 200,000 Rwf</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(1)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">200,000 + Rwf</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(0)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Car Specs Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">Car Specs</h4>
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Air conditioning</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(7)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">4+ doors</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Car Category Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">Car Category</h4>
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Small</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(7)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Medium</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Large</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">SUVs</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Electric Cars Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">Electric Cars</h4>
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Full Electrics</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(0)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Hybrid</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(0)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Deposit Required Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">Deposit Required at Pick-up</h4>
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">30,000 Rfw - 100,000 Rfw</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(0)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          defaultChecked
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">100,000 Rfw - 150,000 Rfw</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(4)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">160,000 Rfw +</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(0)</span>
                     </label>
                   </div>
                 </div>
@@ -343,10 +497,36 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Car Category Buttons */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                <button className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium">
+                  All Cars
+                </button>
+                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
+                  Small Cars
+                </button>
+                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
+                  Medium Cars
+                </button>
+                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
+                  Large Cars
+                </button>
+                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
+                  SUVs Cars
+                </button>
+              </div>
+
               {/* Car Listings */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {cars.map((car) => (
-                  <CarCard key={car.id} car={car} />
+              <div className="space-y-6">
+                {cars.map((car, index) => (
+                  <HorizontalCarCard 
+                    key={car.id} 
+                    car={car} 
+                    isTopPick={index < 2} // First two cars are "Top Pick"
+                    hostName={index % 2 === 0 ? "Benny Crispin Host" : "Sarah Johnson Host"}
+                    reviewCount={111 + index * 15}
+                    reviewRating={9.3 - index * 0.1}
+                  />
                 ))}
               </div>
             </div>
