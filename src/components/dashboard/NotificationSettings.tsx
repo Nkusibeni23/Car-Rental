@@ -1,17 +1,34 @@
 import React from "react";
-import { useAppSelector } from "@/store/hooks";
 
 export default function NotificationSettings() {
-  const { notifications } = useAppSelector((state) => state.notifications);
+  const notifications = [
+    {
+      label: "New Bookings",
+      description: "Get notified when you receive new rental requests",
+    },
+    {
+      label: "Booking Updates",
+      description: "Updates on existing bookings and cancellations",
+    },
+    {
+      label: "Payment Confirmations",
+      description: "Receive confirmation when payments are processed",
+    },
+    {
+      label: "Monthly Reports",
+      description: "Monthly summary of your rental business",
+    },
+    {
+      label: "Marketing Updates",
+      description: "Product updates and promotional offers",
+    },
+  ];
 
   return (
     <div className="space-y-6">
       <div>
-        <h3
-          className="text-base md:text-l
-        g font-semibold text-gray-900 mb-4"
-        >
-          Notifications
+        <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4">
+          Email Notifications
         </h3>
         <div className="space-y-4">
           {notifications.map((item, index) => (
@@ -20,8 +37,8 @@ export default function NotificationSettings() {
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 rounded-lg space-y-2 sm:space-y-0"
             >
               <div className="flex-1">
-                <p className="font-medium text-gray-900">{item.title}</p>
-                <p className="text-sm text-gray-600">{item.message}</p>
+                <p className="font-medium text-gray-900">{item.label}</p>
+                <p className="text-sm text-gray-600">{item.description}</p>
               </div>
               <input
                 type="checkbox"

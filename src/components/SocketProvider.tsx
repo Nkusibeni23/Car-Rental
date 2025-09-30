@@ -1,7 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { shallowEqual } from "react-redux"; // Add shallowEqual
 import { RootState } from "../store/store";
 import { useSocket } from "@/store/hooks/useSocket";
+import { useAppSelector } from "@/store/hooks";
 
 interface SocketProviderProps {
   children: React.ReactNode;
@@ -12,10 +13,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   children,
   apiUrl,
 }) => {
-  const { isAuthenticated, accessToken } = useSelector((state: RootState) => ({
-    isAuthenticated: state.auth?.isAuthenticated,
-    accessToken: state.auth?.accessToken,
-  }));
+  const { isAuthenticated, accessToken } = useAppSelector(
+    (state: RootState) => ({
+      isAuthenticated: state.auth?.isAuthenticated,
+      accessToken: state.auth?.accessToken,
+    }),
+    shallowEqual
+  );
 
   useSocket(
     isAuthenticated && accessToken ? apiUrl : undefined,

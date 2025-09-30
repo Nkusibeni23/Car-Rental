@@ -26,8 +26,12 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = async () => {
-    await dispatch(logoutUser());
-    toast.success("Signed Out", "You have been successfully signed out.");
+    const response = await dispatch(logoutUser());
+    console.log("Logout response:", response);
+    toast.success(
+      "Signed Out",
+      response.payload ?? "You have been signed out successfully."
+    );
     setIsMobileMenuOpen(false);
     router.push("/");
   };

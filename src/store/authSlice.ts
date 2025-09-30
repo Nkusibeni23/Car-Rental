@@ -62,18 +62,20 @@ export const enable2FA = createAsyncThunk<
   }
 });
 
-export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
-  "auth/logout",
-  async (_, { rejectWithValue }) => {
-    try {
-      // Call the synchronous logout method
-      authService.logout();
-    } catch (error) {
-      const apiError = error as ApiError;
-      return rejectWithValue(apiError.message);
-    }
+export const logoutUser = createAsyncThunk<
+  string,
+  void,
+  { rejectValue: string }
+>("auth/logout", async (_, { rejectWithValue }) => {
+  try {
+    // Call the synchronous logout method
+    const response = await authService.logout();
+    return response.message;
+  } catch (error) {
+    const apiError = error as ApiError;
+    return rejectWithValue(apiError.message);
   }
-);
+});
 
 export const getCurrentUser = createAsyncThunk<
   User,
