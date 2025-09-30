@@ -167,7 +167,7 @@ export default function Home() {
         {/* Search Form */}
         <div className="absolute bottom-4 left-0 right-0 z-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
-            <div className="bg-white rounded-2xl shadow-2xl p-6">
+            <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] p-6">
               <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
                 {/* Pick-up Location */}
                 <div className="md:col-span-1">
@@ -268,26 +268,35 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Filter Sidebar */}
             <div className="lg:col-span-1">
-              <div className="bg-white border border-gray-200 rounded-lg p-6 sticky top-4">
+              <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] p-6 sticky top-4">
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Filter</h3>
-                  <button className="text-sm text-gray-500 hover:text-gray-700">
+                  <h3 className="text-lg font-bold text-gray-900">Filter</h3>
+                  <button className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
                     Clear All Filters
                   </button>
                 </div>
 
-                {/* Transmission Filter */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Transmission</h4>
-                  <div className="space-y-2">
+                {/* Price Range Filter */}
+                <div className="mb-4 pb-4 border-b border-gray-200">
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Price Range</h4>
+                  <div className="space-y-1">
                     <label className="flex items-center justify-between">
                       <div className="flex items-center">
                         <input
                           type="checkbox"
-                          defaultChecked
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">Automatic</span>
+                        <span className="ml-2 text-sm text-gray-600">Under 50,000 RWF</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">50,000 - 80,000 RWF</span>
                       </div>
                       <span className="text-sm text-gray-500">(4)</span>
                     </label>
@@ -295,175 +304,64 @@ export default function Home() {
                       <div className="flex items-center">
                         <input
                           type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">Manually</span>
+                        <span className="ml-2 text-sm text-gray-600">Above 80,000 RWF</span>
                       </div>
                       <span className="text-sm text-gray-500">(2)</span>
                     </label>
                   </div>
                 </div>
 
-                {/* Price per day Filter */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Price per day</h4>
-                  <div className="space-y-2">
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">30,000 Rfw - 100,000 Rfw</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(4)</span>
-                    </label>
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">110,000 Rfw - 200,000 Rwf</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(1)</span>
-                    </label>
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">200,000 + Rwf</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(0)</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Car Specs Filter */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Car Specs</h4>
-                  <div className="space-y-2">
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">Air conditioning</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(7)</span>
-                    </label>
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">4+ doors</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(3)</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Car Category Filter */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Car Category</h4>
-                  <div className="space-y-2">
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">Small</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(7)</span>
-                    </label>
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">Medium</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(3)</span>
-                    </label>
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">Large</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(3)</span>
-                    </label>
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">SUVs</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(3)</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Electric Cars Filter */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Electric Cars</h4>
-                  <div className="space-y-2">
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">Full Electrics</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(0)</span>
-                    </label>
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">Hybrid</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(0)</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Deposit Required Filter */}
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Deposit Required at Pick-up</h4>
-                  <div className="space-y-2">
-                    <label className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
-                        />
-                        <span className="ml-2 text-sm text-gray-600">30,000 Rfw - 100,000 Rfw</span>
-                      </div>
-                      <span className="text-sm text-gray-500">(0)</span>
-                    </label>
+                {/* Transmission Filter */}
+                <div className="mb-4 pb-4 border-b border-gray-200">
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Transmission</h4>
+                  <div className="space-y-1">
                     <label className="flex items-center justify-between">
                       <div className="flex items-center">
                         <input
                           type="checkbox"
                           defaultChecked
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">100,000 Rfw - 150,000 Rfw</span>
+                        <span className="ml-2 text-sm text-gray-600">Automatic</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(6)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Manual</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Car Type Filter */}
+                <div className="mb-4 pb-4 border-b border-gray-200">
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Car Type</h4>
+                  <div className="space-y-1">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Sedan</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">SUV</span>
                       </div>
                       <span className="text-sm text-gray-500">(4)</span>
                     </label>
@@ -471,14 +369,126 @@ export default function Home() {
                       <div className="flex items-center">
                         <input
                           type="checkbox"
-                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">160,000 Rfw +</span>
+                        <span className="ml-2 text-sm text-gray-600">Hatchback</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(2)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Features Filter */}
+                <div className="mb-4 pb-4 border-b border-gray-200">
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Features</h4>
+                  <div className="space-y-1">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Air Conditioning</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(9)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">GPS Navigation</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(7)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Bluetooth</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(8)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Fuel Type Filter */}
+                <div className="mb-4 pb-4 border-b border-gray-200">
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Fuel Type</h4>
+                  <div className="space-y-1">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Petrol</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(7)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Diesel</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(2)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Electric</span>
                       </div>
                       <span className="text-sm text-gray-500">(0)</span>
                     </label>
                   </div>
                 </div>
+
+                {/* Year Filter */}
+                <div className="mb-4">
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Year</h4>
+                  <div className="space-y-1">
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">2020 - 2024</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(5)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">2018 - 2019</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(3)</span>
+                    </label>
+                    <label className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Below 2018</span>
+                      </div>
+                      <span className="text-sm text-gray-500">(1)</span>
+                    </label>
+                  </div>
+                </div>
+
               </div>
             </div>
 
