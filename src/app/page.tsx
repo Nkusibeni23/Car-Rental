@@ -276,9 +276,9 @@ export default function Home() {
                   </button>
                 </div>
 
-                {/* Price Range Filter */}
+                {/* Car Type Filter */}
                 <div className="mb-4 pb-4 border-b border-gray-200">
-                  <h4 className="text-sm font-bold text-gray-900 mb-2">Price Range</h4>
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Car Type</h4>
                   <div className="space-y-1">
                     <label className="flex items-center justify-between">
                       <div className="flex items-center">
@@ -286,7 +286,7 @@ export default function Home() {
                           type="checkbox"
                           className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">Under 50,000 RWF</span>
+                        <span className="ml-2 text-sm text-gray-600">Sedan</span>
                       </div>
                       <span className="text-sm text-gray-500">(3)</span>
                     </label>
@@ -296,7 +296,7 @@ export default function Home() {
                           type="checkbox"
                           className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">50,000 - 80,000 RWF</span>
+                        <span className="ml-2 text-sm text-gray-600">SUV</span>
                       </div>
                       <span className="text-sm text-gray-500">(4)</span>
                     </label>
@@ -306,7 +306,7 @@ export default function Home() {
                           type="checkbox"
                           className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">Above 80,000 RWF</span>
+                        <span className="ml-2 text-sm text-gray-600">Hatchback</span>
                       </div>
                       <span className="text-sm text-gray-500">(2)</span>
                     </label>
@@ -341,9 +341,9 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Car Type Filter */}
+                {/* Price Range Filter */}
                 <div className="mb-4 pb-4 border-b border-gray-200">
-                  <h4 className="text-sm font-bold text-gray-900 mb-2">Car Type</h4>
+                  <h4 className="text-sm font-bold text-gray-900 mb-2">Price Range</h4>
                   <div className="space-y-1">
                     <label className="flex items-center justify-between">
                       <div className="flex items-center">
@@ -351,7 +351,7 @@ export default function Home() {
                           type="checkbox"
                           className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">Sedan</span>
+                        <span className="ml-2 text-sm text-gray-600">Under 50,000 RWF</span>
                       </div>
                       <span className="text-sm text-gray-500">(3)</span>
                     </label>
@@ -361,7 +361,7 @@ export default function Home() {
                           type="checkbox"
                           className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">SUV</span>
+                        <span className="ml-2 text-sm text-gray-600">50,000 - 80,000 RWF</span>
                       </div>
                       <span className="text-sm text-gray-500">(4)</span>
                     </label>
@@ -371,7 +371,7 @@ export default function Home() {
                           type="checkbox"
                           className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black accent-black"
                         />
-                        <span className="ml-2 text-sm text-gray-600">Hatchback</span>
+                        <span className="ml-2 text-sm text-gray-600">Above 80,000 RWF</span>
                       </div>
                       <span className="text-sm text-gray-500">(2)</span>
                     </label>
