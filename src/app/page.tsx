@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MapPin, Calendar, Clock, Search } from "lucide-react";
+import { MapPin, Calendar, Clock, Search, ArrowUpDown } from "lucide-react";
 import HorizontalCarCard from "@/components/HorizontalCarCard";
 import { Car } from "@/types/car";
 
@@ -484,36 +484,43 @@ export default function Home() {
 
             {/* Main Content */}
             <div className="lg:col-span-3">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">{cars.length} Cars Available</h2>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">Sort By:</span>
-                  <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent">
-                    <option>Recommended</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                    <option>Newest First</option>
-                  </select>
+              {/* Header and Filter Card */}
+              <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] p-6 mb-6">
+                {/* Header Section */}
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900">{cars.length} Cars Available</h2>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2">
+                      <ArrowUpDown className="w-4 h-4 text-gray-600" />
+                      <span className="text-sm text-gray-600">Sort By:</span>
+                    </div>
+                    <select className="border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white">
+                      <option>Recommended</option>
+                      <option>Price: Low to High</option>
+                      <option>Price: High to Low</option>
+                      <option>Newest First</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              {/* Car Category Buttons */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                <button className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium">
-                  All Cars
-                </button>
-                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
-                  Small Cars
-                </button>
-                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
-                  Medium Cars
-                </button>
-                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
-                  Large Cars
-                </button>
-                <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
-                  SUVs Cars
-                </button>
+                {/* Car Category Filter Buttons */}
+                <div className="flex flex-wrap gap-2">
+                  <button className="bg-black text-white px-6 py-3 rounded-full text-sm font-medium">
+                    All Cars
+                  </button>
+                  <button className="bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-50">
+                    Small Cars
+                  </button>
+                  <button className="bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-50">
+                    Medium Cars
+                  </button>
+                  <button className="bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-50">
+                    Large Cars
+                  </button>
+                  <button className="bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-50">
+                    SUVs Cars
+                  </button>
+                </div>
               </div>
 
               {/* Car Listings */}
