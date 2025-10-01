@@ -19,8 +19,8 @@ export default function NotificationDropdown() {
   const { notifications, isNewNotification } = useAppSelector(
     (state) => state.notifications
   );
-  // const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth);
+  // const { user } = useAppSelector((state) => state.auth);
   const { success: showToast } = useToast();
 
   const dropdownRef = useRef<HTMLDivElement>(null);

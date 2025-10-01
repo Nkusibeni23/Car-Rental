@@ -1,28 +1,18 @@
-import React from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchNotificationPreferences } from "@/store/slices/notificationPreferencesSlice";
+import React, { useEffect } from "react";
 
 export default function NotificationSettings() {
-  const notifications = [
-    {
-      label: "New Bookings",
-      description: "Get notified when you receive new rental requests",
-    },
-    {
-      label: "Booking Updates",
-      description: "Updates on existing bookings and cancellations",
-    },
-    {
-      label: "Payment Confirmations",
-      description: "Receive confirmation when payments are processed",
-    },
-    {
-      label: "Monthly Reports",
-      description: "Monthly summary of your rental business",
-    },
-    {
-      label: "Marketing Updates",
-      description: "Product updates and promotional offers",
-    },
-  ];
+  const dispatch = useAppDispatch();
+  const { notificationPreferences } = useAppSelector(
+    (state) => state.notificationPreferences
+  );
+
+  const { user } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    user && dispatch(fetchNotificationPreferences(user.id));
+  }, [dispatch, user, notificationPreferences]);
 
   return (
     <div className="space-y-6">
@@ -31,18 +21,18 @@ export default function NotificationSettings() {
           Email Notifications
         </h3>
         <div className="space-y-4">
-          {notifications.map((item, index) => (
+          {notificationPreferences?.preferences.map((item, index) => (
             <div
               key={index}
               className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 rounded-lg space-y-2 sm:space-y-0"
             >
               <div className="flex-1">
-                <p className="font-medium text-gray-900">{item.label}</p>
+                <p className="font-medium text-gray-900">{item.title}</p>
                 <p className="text-sm text-gray-600">{item.description}</p>
               </div>
               <input
                 type="checkbox"
-                defaultChecked
+                defaultChecked={item.enabled}
                 className="w-4 h-4 text-black bg-white border border-gray-300 rounded cursor-pointer transition-all duration-200 ease-in-out focus:ring-1 focus:ring-black focus:ring-offset-1 hover:border-gray-400 checked:bg-black checked:border-black checked:text-white accent-black"
               />
             </div>

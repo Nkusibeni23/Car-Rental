@@ -1,6 +1,10 @@
 import apiClient from "@/lib/api";
 import { ApiError } from "@/types/Api";
-import { NotificationsListResponse, Notification } from "@/types/notification";
+import {
+  NotificationsListResponse,
+  Notification,
+  NotificationPreferences,
+} from "@/types/notification";
 
 import { AxiosError } from "axios";
 
@@ -20,6 +24,16 @@ class NotificationService {
       if (params.userId) queryParams.append("userId", params.userId.toString());
 
       return await apiClient.get(`/notifications?${queryParams.toString()}`);
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  async getNotificationPreferences(
+    userId?: number
+  ): Promise<NotificationPreferences> {
+    try {
+      return (await apiClient.get(`/notifications/preference/${userId}`)).data;
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }
