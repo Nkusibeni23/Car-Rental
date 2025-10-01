@@ -9,21 +9,22 @@ import {
   markAllNotificationsAsRead,
   markNotificationAsRead,
   removeNotification,
+  resetNewNotificationFlag,
 } from "@/store/slices/notificationSlice";
 import { useToast } from "@/app/shared/ToastProvider";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { notifications } = useAppSelector((state) => state.notifications);
+  const { notifications, isNewNotification } = useAppSelector(
+    (state) => state.notifications
+  );
   // const { user, isAuthenticated } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth);
   const { success: showToast } = useToast();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const prevNotificationCount = useRef(0);
-  const isInitialLoad = useRef(true);
 
   const unreadCount =
     notifications && notifications.filter((n) => n.status === "unread").length;
@@ -46,13 +47,7 @@ export default function NotificationDropdown() {
 
   // Play sound and show toast for new notifications
   useEffect(() => {
-    if (isInitialLoad.current) {
-      prevNotificationCount.current = notifications.length;
-      isInitialLoad.current = false;
-      return;
-    }
-
-    if (notifications.length > prevNotificationCount.current) {
+    if (isNewNotification) {
       const playSound = async () => {
         try {
           if (audioRef.current) {
@@ -74,10 +69,10 @@ export default function NotificationDropdown() {
       if (latestNotification) {
         showToast("You have a new notification 🔔", latestNotification.message);
       }
-    }
 
-    prevNotificationCount.current = notifications.length;
-  }, [notifications.length, showToast]);
+      dispatch(resetNewNotificationFlag());
+    }
+  }, [isNewNotification, notifications, showToast, dispatch]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

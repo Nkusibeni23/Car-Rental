@@ -7,6 +7,7 @@ export interface NotificationState {
   notifications: Notification[];
   unreadCount: number;
   isLoading: boolean;
+  isNewNotification: boolean;
   error: string | null;
 }
 
@@ -14,6 +15,7 @@ const initialState: NotificationState = {
   notifications: [],
   unreadCount: 0,
   isLoading: false,
+  isNewNotification: false,
   error: null,
 };
 
@@ -79,6 +81,12 @@ const notificationSlice = createSlice({
       if (!action.payload.status || action.payload.status === "unread") {
         state.unreadCount += 1;
       }
+
+      state.isNewNotification = true;
+    },
+
+    resetNewNotificationFlag: (state) => {
+      state.isNewNotification = false;
     },
 
     removeNotification: (state, action: PayloadAction<number>) => {
@@ -205,6 +213,7 @@ const notificationSlice = createSlice({
 export const {
   clearError,
   addNotification,
+  resetNewNotificationFlag,
   removeNotification,
   updateNotificationInState,
   clearAllNotifications,

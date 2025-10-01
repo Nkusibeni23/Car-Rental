@@ -84,7 +84,7 @@ export const socketMiddleware: Middleware<{ dispatch: Dispatch<AnyAction> }> =
         });
 
         socketInstance.on(
-          "newNotification",
+          "new-notification",
           (data: { data: Notification; type: string; timestamp: string }) => {
             store.dispatch(addNotification(data.data));
           }
