@@ -2,65 +2,78 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Bell, X, AlertCircle, Info, CheckCircle, Clock } from "lucide-react";
-import "../../app/globals.css";
 import { LuBell } from "react-icons/lu";
-
-interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  type: "success" | "error" | "info" | "warning";
-  isRead: boolean;
-  createdAt: string;
-  actionRequired?: boolean;
-}
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  fetchNotifications,
+  markAllNotificationsAsRead,
+  markNotificationAsRead,
+  removeNotification,
+  resetNewNotificationFlag,
+} from "@/store/slices/notificationSlice";
+import { useToast } from "@/app/shared/ToastProvider";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: "1",
-      title: "Booking Confirmed",
-      message: "Your Tesla Model S booking for tomorrow has been confirmed.",
-      type: "success",
-      isRead: false,
-      createdAt: "2025-09-18T10:30:00Z",
-      actionRequired: false,
-    },
-    {
-      id: "2",
-      title: "Payment Due",
-      message: "Payment for your BMW X5 rental is due in 2 days.",
-      type: "warning",
-      isRead: false,
-      createdAt: "2025-09-18T09:15:00Z",
-      actionRequired: true,
-    },
-    {
-      id: "3",
-      title: "Vehicle Available",
-      message: "The Mercedes-Benz C-Class you wanted is now available.",
-      type: "info",
-      isRead: true,
-      createdAt: "2025-09-17T16:45:00Z",
-      actionRequired: false,
-    },
-    {
-      id: "4",
-      title: "Booking Cancelled",
-      message: "Your Audi A4 booking has been cancelled due to maintenance.",
-      type: "error",
-      isRead: false,
-      createdAt: "2025-09-17T14:20:00Z",
-      actionRequired: true,
-    },
-  ]);
+  const dispatch = useAppDispatch();
+  const { notifications, isNewNotification } = useAppSelector(
+    (state) => state.notifications
+  );
+  // const { user, isAuthenticated } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
+  const { success: showToast } = useToast();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const unreadCount =
+    notifications && notifications.filter((n) => n.status === "unread").length;
 
-  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (user && user.id) {
+      dispatch(
+        fetchNotifications({ skip: 0, limit: 10, userId: user.id })
+      ).unwrap();
+    }
+  }, [dispatch, user]);
+
+  // Initialize audio
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/audio/notification_sound_3.mp3");
+      audioRef.current.preload = "auto";
+    }
+  }, []);
+
+  // Play sound and show toast for new notifications
+  useEffect(() => {
+    if (isNewNotification) {
+      const playSound = async () => {
+        try {
+          if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            await audioRef.current.play();
+          }
+        } catch (error) {
+          console.warn("Could not play notification sound:", error);
+        }
+      };
+
+      const latestNotification =
+        [...notifications].reverse().find((n) => n.status === "unread") || null;
+
+      // Play sound
+      playSound();
+
+      // Show toast notification
+      if (latestNotification) {
+        showToast("You have a new notification 🔔", latestNotification.message);
+      }
+
+      dispatch(resetNewNotificationFlag());
+    }
+  }, [isNewNotification, notifications, showToast, dispatch]);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -74,28 +87,6 @@ export default function NotificationDropdown() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const markAsRead = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.id === id
-          ? { ...notification, isRead: true }
-          : notification
-      )
-    );
-  };
-
-  const markAllAsRead = () => {
-    setNotifications((prev) =>
-      prev.map((notification) => ({ ...notification, isRead: true }))
-    );
-  };
-
-  const removeNotification = (id: string) => {
-    setNotifications((prev) =>
-      prev.filter((notification) => notification.id !== id)
-    );
-  };
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
@@ -140,6 +131,8 @@ export default function NotificationDropdown() {
         )}
       </button>
 
+      {/* <audio ref={audioRef} src="sound/notification_sound_1.wav" /> */}
+
       {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-96 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 max-h-96 overflow-hidden">
@@ -151,7 +144,9 @@ export default function NotificationDropdown() {
               </h3>
               {unreadCount > 0 && (
                 <button
-                  onClick={markAllAsRead}
+                  onClick={async () => {
+                    await dispatch(markAllNotificationsAsRead()).unwrap();
+                  }}
                   className="text-sm text-gray-800 hover:text-gray-800 font-semibold transition-colors cursor-pointer"
                 >
                   Mark all read
@@ -172,11 +167,21 @@ export default function NotificationDropdown() {
                 <div
                   key={notification.id}
                   className={`px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer ${
-                    !notification.isRead
+                    notification.status === "unread"
                       ? "bg-gray-50 border-l-4 border-l-gray-500"
                       : ""
                   }`}
-                  onClick={() => markAsRead(notification.id)}
+                  onClick={async () => {
+                    if (notification.actionUrl || notification.id) {
+                      await dispatch(
+                        markNotificationAsRead(notification.id)
+                      ).unwrap();
+
+                      if (notification.actionUrl) {
+                        window.location.href = notification.actionUrl;
+                      }
+                    }
+                  }}
                 >
                   <div className="flex items-start space-x-3">
                     <div className="flex-shrink-0 mt-0.5">
@@ -188,7 +193,7 @@ export default function NotificationDropdown() {
                         <div className="flex-1">
                           <p
                             className={`text-sm font-medium ${
-                              !notification.isRead
+                              notification.status === "unread"
                                 ? "text-gray-900"
                                 : "text-gray-700"
                             }`}
@@ -204,18 +209,18 @@ export default function NotificationDropdown() {
                             <span className="text-xs text-gray-500">
                               {formatTime(notification.createdAt)}
                             </span>
-                            {notification.actionRequired && (
+                            {/* {notification.actionRequired && (
                               <span className="text-xs bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full font-medium">
                                 Action Required
                               </span>
-                            )}
+                            )} */}
                           </div>
                         </div>
 
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            removeNotification(notification.id);
+                            dispatch(removeNotification(notification.id));
                           }}
                           className="ml-2 p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors"
                         >

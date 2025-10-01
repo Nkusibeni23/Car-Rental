@@ -5,6 +5,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AuthState {
   user: User | null;
+  accessToken?: string;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -12,6 +13,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   user: null,
+  accessToken: "",
   isAuthenticated: false,
   isLoading: false,
   error: null,
@@ -19,13 +21,13 @@ const initialState: AuthState = {
 
 // Async thunks for API calls
 export const loginUser = createAsyncThunk<
-  User,
+  { user: User; accessToken?: string },
   LoginRequest,
   { rejectValue: string }
 >("auth/login", async (credentials, { rejectWithValue }) => {
   try {
     const response = await authService.login(credentials);
-    return response.user;
+    return response;
   } catch (error) {
     const apiError = error as ApiError;
     return rejectWithValue(apiError.message);
@@ -46,18 +48,34 @@ export const registerUser = createAsyncThunk<
   }
 });
 
-export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
-  "auth/logout",
-  async (_, { rejectWithValue }) => {
-    try {
-      // Call the synchronous logout method
-      authService.logout();
-    } catch (error) {
-      const apiError = error as ApiError;
-      return rejectWithValue(apiError.message);
-    }
+export const enable2FA = createAsyncThunk<
+  { message: string },
+  void,
+  { rejectValue: string }
+>("users/enable-2fa", async (_, { rejectWithValue }) => {
+  try {
+    const response = await authService.enable2FA();
+    return response.data;
+  } catch (error) {
+    const apiError = error as ApiError;
+    return rejectWithValue(apiError.message);
   }
-);
+});
+
+export const logoutUser = createAsyncThunk<
+  string,
+  void,
+  { rejectValue: string }
+>("auth/logout", async (_, { rejectWithValue }) => {
+  try {
+    // Call the synchronous logout method
+    const response = await authService.logout();
+    return response.message;
+  } catch (error) {
+    const apiError = error as ApiError;
+    return rejectWithValue(apiError.message);
+  }
+});
 
 export const getCurrentUser = createAsyncThunk<
   User,
@@ -135,8 +153,9 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.isAuthenticated = true;
+        state.accessToken = action.payload.accessToken;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -223,6 +242,21 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || "Failed to change password";
+      })
+
+      // Enable 2FA cases
+      .addCase(enable2FA.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(enable2FA.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user!.is2fa = true;
+        state.error = null;
+      })
+      .addCase(enable2FA.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Failed to change password";
       });

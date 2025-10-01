@@ -6,6 +6,7 @@ export interface User {
   phone: string | null;
   email: string;
   role: string;
+  is2fa: boolean;
   isActive: boolean;
   isTermsAccepted: boolean;
   lastLogin: string | null;

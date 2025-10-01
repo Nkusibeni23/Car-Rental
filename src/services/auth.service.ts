@@ -29,6 +29,14 @@ class AuthService {
     }
   }
 
+  async enable2FA(): Promise<{ data: { message: string } }> {
+    try {
+      return await apiClient.patch("/users/enable-2fa");
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
   // Register user
   async register(userData: RegisterRequest): Promise<AuthResponse> {
     try {
@@ -49,15 +57,17 @@ class AuthService {
   }
 
   // Logout user
-  logout(): void {
+  async logout(): Promise<{ message: string }> {
     // Clear all tokens and user data from localStorage
-    TokenService.clearTokens();
-    TokenService.removeUserData();
+    // TokenService.clearTokens();
+    // TokenService.removeUserData();
+
+    const response = await apiClient.post("/auth/logout");
+
+    return response.data;
 
     // Optional: Clear any other app-specific data
     // localStorage.removeItem('someOtherAppData');
-
-    console.log("User logged out successfully");
   }
 
   // Get current user profile
