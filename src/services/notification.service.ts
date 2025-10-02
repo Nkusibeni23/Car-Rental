@@ -4,6 +4,7 @@ import {
   NotificationsListResponse,
   Notification,
   NotificationPreferences,
+  NotificationPreferenceItem,
 } from "@/types/notification";
 
 import { AxiosError } from "axios";
@@ -79,6 +80,21 @@ class NotificationService {
   async markAllAsRead(): Promise<{ data: Notification[] }> {
     try {
       return await apiClient.patch("/notifications/mark-all-as-read");
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Update notification preferences
+  async updateNotificationPreferences(preferences: {
+    preferences: NotificationPreferenceItem[];
+  }): Promise<{ data: NotificationPreferenceItem[] }> {
+    try {
+      const response = await apiClient.patch(
+        `/notifications/preferences`,
+        preferences
+      );
+      return response.data;
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }

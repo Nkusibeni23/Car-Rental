@@ -1,4 +1,7 @@
-import { NotificationPreferences } from "@/types/notification";
+import {
+  NotificationPreferenceItem,
+  NotificationPreferences,
+} from "@/types/notification";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import notificationService from "@/services/notification.service";
 import { ApiError } from "next/dist/server/api-utils";
@@ -25,6 +28,25 @@ export const fetchNotificationPreferences = createAsyncThunk<
     try {
       const response = await notificationService.getNotificationPreferences(
         userId
+      );
+      return response;
+    } catch (error) {
+      const apiError = error as ApiError;
+      return rejectWithValue(apiError.message);
+    }
+  }
+);
+
+export const updateNotificationPreferences = createAsyncThunk<
+  { data: NotificationPreferenceItem[] },
+  { preferences: NotificationPreferenceItem[] },
+  { rejectValue: string }
+>(
+  "notifications/update-notification-preferences",
+  async (preferences, { rejectWithValue }) => {
+    try {
+      const response = await notificationService.updateNotificationPreferences(
+        preferences
       );
       return response;
     } catch (error) {
