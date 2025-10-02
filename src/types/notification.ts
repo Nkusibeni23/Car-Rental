@@ -16,6 +16,27 @@ export interface Notification {
   };
 }
 
+export interface NotificationChannelSettings {
+  email: boolean;
+  push: boolean;
+  sms: boolean;
+}
+
+export interface NotificationPreferenceItem {
+  title: string;
+  description: string;
+  enabled: boolean;
+  channels: NotificationChannelSettings;
+}
+
+export interface NotificationPreferences {
+  id: number;
+  userId: number;
+  preferences: NotificationPreferenceItem[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface NotificationsListResponse {
   data: { count: number; rows: Notification[] };
 }

@@ -1,6 +1,6 @@
 import notificationService from "@/services/notification.service";
 import { ApiError } from "@/types/Api";
-import { Notification } from "@/types/notification";
+import { Notification, NotificationPreferences } from "@/types/notification";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 export interface NotificationState {

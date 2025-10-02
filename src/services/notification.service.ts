@@ -1,6 +1,11 @@
 import apiClient from "@/lib/api";
 import { ApiError } from "@/types/Api";
-import { NotificationsListResponse, Notification } from "@/types/notification";
+import {
+  NotificationsListResponse,
+  Notification,
+  NotificationPreferences,
+  NotificationPreferenceItem,
+} from "@/types/notification";
 
 import { AxiosError } from "axios";
 
@@ -20,6 +25,16 @@ class NotificationService {
       if (params.userId) queryParams.append("userId", params.userId.toString());
 
       return await apiClient.get(`/notifications?${queryParams.toString()}`);
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  async getNotificationPreferences(
+    userId?: number
+  ): Promise<NotificationPreferences> {
+    try {
+      return (await apiClient.get(`/notifications/preference/${userId}`)).data;
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }
@@ -65,6 +80,21 @@ class NotificationService {
   async markAllAsRead(): Promise<{ data: Notification[] }> {
     try {
       return await apiClient.patch("/notifications/mark-all-as-read");
+    } catch (error) {
+      throw this.handleError(error as AxiosError);
+    }
+  }
+
+  // Update notification preferences
+  async updateNotificationPreferences(preferences: {
+    preferences: NotificationPreferenceItem[];
+  }): Promise<{ data: NotificationPreferenceItem[] }> {
+    try {
+      const response = await apiClient.patch(
+        `/notifications/preferences`,
+        preferences
+      );
+      return response.data;
     } catch (error) {
       throw this.handleError(error as AxiosError);
     }
